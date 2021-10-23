@@ -1,4 +1,4 @@
-package retoNoMaven;
+package retoTecnico;
 import java.sql.*;
 
 
