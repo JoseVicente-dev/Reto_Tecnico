@@ -7,32 +7,27 @@ public class Categoria {
 
 	private int ronda;
 	private Pregunta[] preguntas = new Pregunta[5];
-	private int premio;
+	private Premio premio;
 	private boolean superada = false;
-	Scanner scan = new Scanner(System.in);
+	private Scanner scan = new Scanner(System.in);
 
 	/**
 	 * @param ronda
 	 * @param premio
 	 */
-	public Categoria(int ronda, int premio) {
+	public Categoria(int ronda, Premio premio) {
 		super();
 		this.ronda = ronda;
 		this.premio = premio;
 	}
 
 	public void generarPreguntas() {
-		
+
 		Pregunta pregunta1 = configurarPregunta(0, 1, this.ronda);
-		pregunta1.generarRespuestas();
 		Pregunta pregunta2 = configurarPregunta(1, 2, this.ronda);
-		pregunta2.generarRespuestas();
 		Pregunta pregunta3 = configurarPregunta(2, 3, this.ronda);
-		pregunta3.generarRespuestas();
 		Pregunta pregunta4 = configurarPregunta(3, 4, this.ronda);
-		pregunta4.generarRespuestas();
 		Pregunta pregunta5 = configurarPregunta(4, 5, this.ronda);
-		pregunta5.generarRespuestas();
 
 		preguntas[0] = pregunta1;
 		preguntas[1] = pregunta2;
@@ -43,9 +38,11 @@ public class Categoria {
 	}
 
 	public Pregunta configurarPregunta(int indiceP, int i, int ronda) {
-		System.out.println("Ingrese el enunciado de la Pregunta No. " + i+":");		
+
+		System.out.println("Ingrese el enunciado de la Pregunta No. " + i + dificultadRonda(ronda) + ":");
 		String enunciadoP = scan.nextLine();
-		Pregunta pregunta = new Pregunta(indiceP,ronda, enunciadoP);
+		Pregunta pregunta = new Pregunta(indiceP, ronda, enunciadoP);
+		pregunta.generarRespuestas();
 		return pregunta;
 
 	}
@@ -58,6 +55,26 @@ public class Categoria {
 
 		return preguntaSeleccionada;
 
+	}
+
+	public String dificultadRonda(int ronda) {
+		String dificultad;
+
+		switch (ronda) {
+		case 1:
+			dificultad = "(Muy fácil)";
+		case 2:
+			dificultad = "(Fácil)";
+		case 3:
+			dificultad = "(Moderada)";
+		case 4:
+			dificultad = "(Difícil)";
+		case 5:
+			dificultad = "(Muy difícil)";
+		default:
+			dificultad = "";
+		}
+		return dificultad;
 	}
 
 	public void categoriaSuperada() {
@@ -83,14 +100,14 @@ public class Categoria {
 	/**
 	 * @return the premio
 	 */
-	public int getPremio() {
+	public Premio getPremio() {
 		return premio;
 	}
 
 	/**
 	 * @param premio the premio to set
 	 */
-	public void setPremio(int premio) {
+	public void setPremio(Premio premio) {
 		this.premio = premio;
 	}
 

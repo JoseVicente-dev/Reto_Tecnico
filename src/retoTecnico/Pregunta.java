@@ -10,7 +10,7 @@ public class Pregunta {
 	private Respuesta[] respuestas = new Respuesta[4];
 	private int seleccion;
 	private int indice;
-	Scanner scan = new Scanner(System.in);
+	private Scanner scan = new Scanner(System.in);
 
 	/**
 	 * @param nivel
