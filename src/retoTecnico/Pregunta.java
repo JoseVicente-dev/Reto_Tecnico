@@ -50,7 +50,7 @@ public class Pregunta {
 	
 	public void insertarRespuesta(Respuesta respuesta) {
 		for (int i=0;i<5;++i) {			
-			if(respuestas[i]!=null) {
+			if(respuestas[i]==null) {
 				respuestas[i]=respuesta;
 				return;
 			}

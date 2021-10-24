@@ -28,26 +28,56 @@ public class Concurso {
 		String tipoDePremio = scan.nextLine();
 
 		Categoria categoria1 = configurarCategoria(1, tipoDePremio);
-		Categoria categoria2 = configurarCategoria(2, tipoDePremio);
-		Categoria categoria3 = configurarCategoria(3, tipoDePremio);
-		Categoria categoria4 = configurarCategoria(4, tipoDePremio);
-		Categoria categoria5 = configurarCategoria(5, tipoDePremio);
-
+//		Categoria categoria2 = configurarCategoria(2, tipoDePremio);
+//		Categoria categoria3 = configurarCategoria(3, tipoDePremio);
+//		Categoria categoria4 = configurarCategoria(4, tipoDePremio);
+//		Categoria categoria5 = configurarCategoria(5, tipoDePremio);
+//
 		categorias[0] = categoria1;
-		categorias[1] = categoria2;
-		categorias[2] = categoria3;
-		categorias[3] = categoria4;
-		categorias[4] = categoria5;
+//		categorias[1] = categoria2;
+//		categorias[2] = categoria3;
+//		categorias[3] = categoria4;
+//		categorias[4] = categoria5;
 
 	}
 
 	public Categoria configurarCategoria(int ronda, String tipoDePremio) {
-		System.out.println("Ingrese el premio de la Categoria No: " + ronda + ":");
-		int cantidadPremio = scan.nextInt();
+		int cantidadPremio;
+		do {
+			System.out.println("Ingrese el premio de la Categoria No: " + ronda +  dificultadRonda(ronda)+  ":");
+			while (!scan.hasNextInt()) {
+				String input = scan.next();
+				System.out.println(input+" no es un valor válido." );
+				
+			}
+			cantidadPremio=scan.nextInt();
+		}while (cantidadPremio<0);
+		
+		
 		Premio premio = new Premio(tipoDePremio, cantidadPremio);
 		Categoria categoria = new Categoria(ronda, premio);
 		categoria.generarPreguntas();
 		return categoria;
+	}
+	
+	public String dificultadRonda(int ronda) {
+		String dificultad;
+
+		switch (ronda) {
+		case 1:
+			dificultad = " (Muy fácil)";
+		case 2:
+			dificultad = " (Fácil)";
+		case 3:
+			dificultad = " (Moderada)";
+		case 4:
+			dificultad = " (Difícil)";
+		case 5:
+			dificultad = " (Muy difícil)";
+		default:
+			dificultad = "";
+		}
+		return dificultad;
 	}
 
 	/**
