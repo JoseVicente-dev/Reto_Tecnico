@@ -7,6 +7,7 @@ public class Concurso {
 
 	private String fechaInicial;
 	private String fechaFinal;
+	private Categoria[] categorias =new Categoria[5];
 
 	/**
 	 * @param fechaInicial
@@ -19,47 +20,11 @@ public class Concurso {
 
 	}
 
-	public void configurarJuego() {
+	public void configurarCategoria(byte ronda, int premio) {
 		
-		Concurso concurso = new Concurso();
-		Categoria categoriaI = new Categoria(ronda, preguntas, premio)
-		
-
+		Categoria categoriaI= new Categoria(ronda, premio);
 	}
 	
-	public void
 
-	/**
-	 * @return the fechaInicial
-	 */
-	public String getFechaInicial() {
-		return fechaInicial;
-	}
-
-	/**
-	 * @param fechaInicial the fechaInicial to set
-	 */
-	public void setFechaInicial(String fechaInicial) {
-		this.fechaInicial = fechaInicial;
-	}
-
-	/**
-	 * @return the fechaFinal
-	 */
-	public String getFechaFinal() {
-		return fechaFinal;
-	}
-
-	/**
-	 * @param fechaFinal the fechaFinal to set
-	 */
-	public void setFechaFinal(String fechaFinal) {
-		this.fechaFinal = fechaFinal;
-	}
-
-	@Override
-	public String toString() {
-		return "Concurso \n[fechaInicial=" + fechaInicial + ", \nfechaFinal=" + fechaFinal + "]";
-	}
-
+	
 }

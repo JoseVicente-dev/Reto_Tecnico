@@ -1,13 +1,13 @@
 package retoTecnico;
 
-import retoTecnico.Respuesta;
+import java.util.Arrays;
 
 public class Pregunta {
 
 	private byte nivel;
 	private String enunciado;
 	private Respuesta[] respuestas = new Respuesta[4];
-	private byte seleccion=0;
+	private byte seleccion;
 
 	/**
 	 * @param nivel
@@ -20,7 +20,7 @@ public class Pregunta {
 	}
 
 	public void generarRespuestas(String enunciadoV, String enunciadoF1, String enunciadoF2, String enunciadoF3) {
-		byte indiceV = (byte) ((byte) Math.random() * (3 - 0 ) + 0);
+		byte indiceV = (byte) (Math.random() * 4);
 
 		Respuesta correcta = new Respuesta(indiceV, enunciado, true);
 		respuestas[indiceV] = correcta;
@@ -33,7 +33,7 @@ public class Pregunta {
 			indiceF1 = 1;
 			indiceF2 = 2;
 			indiceF3 = 3;
-		}else if (indiceV == 1) {
+		} else if (indiceV == 1) {
 			indiceF1 = 0;
 			indiceF2 = 2;
 			indiceF3 = 3;
@@ -55,13 +55,12 @@ public class Pregunta {
 		respuestas[indiceF2] = incorrecta2;
 		respuestas[indiceF3] = incorrecta3;
 
-	}	
-	
+	}
+
 	public boolean verificarRespuestaCorrecta() {
-		return respuestas[this.seleccion].isRespuestaCorrecta();
-	}	
-	
-	
+		return respuestas[getSeleccion()].isRespuestaCorrecta();
+	}
+
 	/**
 	 * @return the nivel
 	 */
@@ -103,9 +102,18 @@ public class Pregunta {
 	public void setSeleccion(byte seleccion) {
 		this.seleccion = seleccion;
 	}
-	
-	
-	
-	
-	
+
+	/**
+	 * @return the respuestas
+	 */
+	public Respuesta[] getRespuestas() {
+		return respuestas;
+	}
+
+	@Override
+	public String toString() {
+		return "Pregunta \n[nivel=" + nivel + ", \nenunciado=" + enunciado + ", \nrespuestas="
+				+ Arrays.toString(respuestas) + ", \nseleccion=" + seleccion + "]";
+	}
+
 }
