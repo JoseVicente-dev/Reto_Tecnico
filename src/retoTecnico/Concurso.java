@@ -22,9 +22,12 @@ public class Concurso {
 	public void configurarJuego() {
 		
 		Concurso concurso = new Concurso();
+		Categoria categoriaI = new Categoria(ronda, preguntas, premio)
 		
 
 	}
+	
+	public void
 
 	/**
 	 * @return the fechaInicial

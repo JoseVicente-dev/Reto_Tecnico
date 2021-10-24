@@ -1,97 +1,111 @@
 package retoTecnico;
 
+import retoTecnico.Respuesta;
+
 public class Pregunta {
-	
+
 	private byte nivel;
-	private Respuesta respuestaCorrecta;
-	private Respuesta respuestaIncorrecta1;
-	private Respuesta respuestaIncorrecta2;
-	private Respuesta respuestaIncorrecta3;
+	private String enunciado;
+	private Respuesta[] respuestas = new Respuesta[4];
+	private byte seleccion=0;
+
 	/**
 	 * @param nivel
-	 * @param respuestaCorrecta
-	 * @param respuestaIncorrecta1
-	 * @param respuestaIncorrecta2
-	 * @param respuestaIncorrecta3
+	 * @param enunciado
 	 */
-	public Pregunta(byte nivel, Respuesta respuestaCorrecta, Respuesta respuestaIncorrecta1,
-			Respuesta respuestaIncorrecta2, Respuesta respuestaIncorrecta3) {
+	public Pregunta(byte nivel, String enunciado) {
 		super();
 		this.nivel = nivel;
-		this.respuestaCorrecta = respuestaCorrecta;
-		this.respuestaIncorrecta1 = respuestaIncorrecta1;
-		this.respuestaIncorrecta2 = respuestaIncorrecta2;
-		this.respuestaIncorrecta3 = respuestaIncorrecta3;
+		this.enunciado = enunciado;
 	}
+
+	public void generarRespuestas(String enunciadoV, String enunciadoF1, String enunciadoF2, String enunciadoF3) {
+		byte indiceV = (byte) ((byte) Math.random() * (3 - 0 ) + 0);
+
+		Respuesta correcta = new Respuesta(indiceV, enunciado, true);
+		respuestas[indiceV] = correcta;
+
+		byte indiceF1;
+		byte indiceF2;
+		byte indiceF3;
+
+		if (indiceV == 0) {
+			indiceF1 = 1;
+			indiceF2 = 2;
+			indiceF3 = 3;
+		}else if (indiceV == 1) {
+			indiceF1 = 0;
+			indiceF2 = 2;
+			indiceF3 = 3;
+		} else if (indiceV == 2) {
+			indiceF1 = 0;
+			indiceF2 = 1;
+			indiceF3 = 3;
+		} else {
+			indiceF1 = 0;
+			indiceF2 = 1;
+			indiceF3 = 2;
+		}
+
+		Respuesta incorrecta1 = new Respuesta(indiceF1, enunciadoF1, false);
+		Respuesta incorrecta2 = new Respuesta(indiceF2, enunciadoF2, false);
+		Respuesta incorrecta3 = new Respuesta(indiceF3, enunciadoF3, false);
+
+		respuestas[indiceF1] = incorrecta1;
+		respuestas[indiceF2] = incorrecta2;
+		respuestas[indiceF3] = incorrecta3;
+
+	}	
+	
+	public boolean verificarRespuestaCorrecta() {
+		return respuestas[this.seleccion].isRespuestaCorrecta();
+	}	
+	
+	
 	/**
 	 * @return the nivel
 	 */
 	public byte getNivel() {
 		return nivel;
 	}
+
 	/**
 	 * @param nivel the nivel to set
 	 */
 	public void setNivel(byte nivel) {
 		this.nivel = nivel;
 	}
-	/**
-	 * @return the respuestaCorrecta
-	 */
-	public Respuesta getRespuestaCorrecta() {
-		return respuestaCorrecta;
-	}
-	/**
-	 * @param respuestaCorrecta the respuestaCorrecta to set
-	 */
-	public void setRespuestaCorrecta(Respuesta respuestaCorrecta) {
-		this.respuestaCorrecta = respuestaCorrecta;
-	}
-	/**
-	 * @return the respuestaIncorrecta1
-	 */
-	public Respuesta getRespuestaIncorrecta1() {
-		return respuestaIncorrecta1;
-	}
-	/**
-	 * @param respuestaIncorrecta1 the respuestaIncorrecta1 to set
-	 */
-	public void setRespuestaIncorrecta1(Respuesta respuestaIncorrecta1) {
-		this.respuestaIncorrecta1 = respuestaIncorrecta1;
-	}
-	/**
-	 * @return the respuestaIncorrecta2
-	 */
-	public Respuesta getRespuestaIncorrecta2() {
-		return respuestaIncorrecta2;
-	}
-	/**
-	 * @param respuestaIncorrecta2 the respuestaIncorrecta2 to set
-	 */
-	public void setRespuestaIncorrecta2(Respuesta respuestaIncorrecta2) {
-		this.respuestaIncorrecta2 = respuestaIncorrecta2;
-	}
-	/**
-	 * @return the respuestaIncorrecta3
-	 */
-	public Respuesta getRespuestaIncorrecta3() {
-		return respuestaIncorrecta3;
-	}
-	/**
-	 * @param respuestaIncorrecta3 the respuestaIncorrecta3 to set
-	 */
-	public void setRespuestaIncorrecta3(Respuesta respuestaIncorrecta3) {
-		this.respuestaIncorrecta3 = respuestaIncorrecta3;
-	}
-	@Override
-	public String toString() {
-		return "Pregunta \n[nivelDeDificultad=" + nivel + ", \nrespuestaCorrecta=" + respuestaCorrecta
-				+ ", \nrespuestaIncorrecta1=" + respuestaIncorrecta1 + ", \nrespuestaIncorrecta2="
-				+ respuestaIncorrecta2 + ", \nrespuestaIncorrecta3=" + respuestaIncorrecta3 + "]";
-	}
-	
-	
-	
-	
 
+	/**
+	 * @return the enunciado
+	 */
+	public String getEnunciado() {
+		return enunciado;
+	}
+
+	/**
+	 * @param enunciado the enunciado to set
+	 */
+	public void setEnunciado(String enunciado) {
+		this.enunciado = enunciado;
+	}
+
+	/**
+	 * @return the seleccion
+	 */
+	public byte getSeleccion() {
+		return seleccion;
+	}
+
+	/**
+	 * @param seleccion the seleccion to set
+	 */
+	public void setSeleccion(byte seleccion) {
+		this.seleccion = seleccion;
+	}
+	
+	
+	
+	
+	
 }
