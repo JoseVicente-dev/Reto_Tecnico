@@ -2,7 +2,7 @@ package retoTecnico;
 
 public class Respuesta {
 	
-	private byte indice;
+	private int indice;
 	private String enunciado;
 	private boolean respuestaCorrecta;
 	
@@ -11,9 +11,8 @@ public class Respuesta {
 	 * @param enunciado
 	 * @param respuestaCorrecta
 	 */
-	public Respuesta(byte indice, String enunciado, boolean respuestaCorrecta) {
-		super();
-		this.indice = indice;
+	public Respuesta(String enunciado, boolean respuestaCorrecta) {
+		super();		
 		this.enunciado = enunciado;
 		this.respuestaCorrecta = respuestaCorrecta;
 	}
@@ -21,14 +20,14 @@ public class Respuesta {
 	/**
 	 * @return the indice
 	 */
-	public byte getIndice() {
+	public int getIndice() {
 		return indice;
 	}
 
 	/**
 	 * @param indice the indice to set
 	 */
-	public void setIndice(byte indice) {
+	public void setIndice(int indice) {
 		this.indice = indice;
 	}
 

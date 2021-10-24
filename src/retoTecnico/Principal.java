@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Principal {
 
@@ -18,7 +19,19 @@ public class Principal {
 						+ "\nPara cada Categoría debe crear 5 preguntas del mismo nivel. En cada ronda se escogerá una al azar, por tanto debe plantear 25 preguntas en total."
 						+ "\n¡Comencemos!");
 		
-		System.out.println("Categoría I (Muy fácil): \nIngrese el enunciado de la 1ra Pregunta (muy fácil): ");
+		Concurso concurso = new Concurso();
+		
+		System.out.println("Categoría I (Muy fácil)");
+		
+		byte ronda1 = 1;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Ingrese el premio de la Categoria 1:");
+		int premio1 = scan.nextInt();
+		
+		Categoria categoria1 = new Categoria (ronda1, premio1);
+		
+		
+				
 		
 
 		try {

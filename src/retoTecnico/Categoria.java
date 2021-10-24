@@ -1,32 +1,38 @@
 package retoTecnico;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Categoria {
 
-	private byte ronda;
+	private int ronda;
 	private Pregunta[] preguntas = new Pregunta[5];
 	private int premio;
 	private boolean superada = false;
+	Scanner scan = new Scanner(System.in);
 
 	/**
 	 * @param ronda
 	 * @param premio
 	 */
-	public Categoria(byte ronda, int premio) {
+	public Categoria(int ronda, int premio) {
 		super();
 		this.ronda = ronda;
 		this.premio = premio;
 	}
 
-	public void generarRespuestas(String enunciadoP1, String enunciadoP2, String enunciadoP3, String enunciadoP4,
-			String enunciadoP5) {
-
-		Pregunta pregunta1 = new Pregunta(this.ronda, enunciadoP1);
-		Pregunta pregunta2 = new Pregunta(this.ronda, enunciadoP2);
-		Pregunta pregunta3 = new Pregunta(this.ronda, enunciadoP3);
-		Pregunta pregunta4 = new Pregunta(this.ronda, enunciadoP4);
-		Pregunta pregunta5 = new Pregunta(this.ronda, enunciadoP5);
+	public void generarPreguntas() {
+		
+		Pregunta pregunta1 = configurarPregunta(0, 1, this.ronda);
+		pregunta1.generarRespuestas();
+		Pregunta pregunta2 = configurarPregunta(1, 2, this.ronda);
+		pregunta2.generarRespuestas();
+		Pregunta pregunta3 = configurarPregunta(2, 3, this.ronda);
+		pregunta3.generarRespuestas();
+		Pregunta pregunta4 = configurarPregunta(3, 4, this.ronda);
+		pregunta4.generarRespuestas();
+		Pregunta pregunta5 = configurarPregunta(4, 5, this.ronda);
+		pregunta5.generarRespuestas();
 
 		preguntas[0] = pregunta1;
 		preguntas[1] = pregunta2;
@@ -36,9 +42,17 @@ public class Categoria {
 
 	}
 
+	public Pregunta configurarPregunta(int indiceP, int i, int ronda) {
+		System.out.println("Ingrese el enunciado de la Pregunta No. " + i+":");		
+		String enunciadoP = scan.nextLine();
+		Pregunta pregunta = new Pregunta(indiceP,ronda, enunciadoP);
+		return pregunta;
+
+	}
+
 	public Pregunta preguntaAlAzar() {
 
-		byte indiceP = (byte) (Math.random() * 5);
+		int indiceP = (int) (Math.random() * 5);
 
 		Pregunta preguntaSeleccionada = preguntas[indiceP];
 
@@ -55,14 +69,14 @@ public class Categoria {
 	/**
 	 * @return the ronda
 	 */
-	public byte getRonda() {
+	public int getRonda() {
 		return ronda;
 	}
 
 	/**
 	 * @param ronda the ronda to set
 	 */
-	public void setRonda(byte ronda) {
+	public void setRonda(int ronda) {
 		this.ronda = ronda;
 	}
 
@@ -106,7 +120,5 @@ public class Categoria {
 		return "Categoria \n[ronda=" + ronda + ", \npreguntas=" + Arrays.toString(preguntas) + ", \npremio=" + premio
 				+ ", \nsuperada=" + superada + "]";
 	}
-	
-	
 
 }

@@ -1,60 +1,60 @@
 package retoTecnico;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Pregunta {
 
-	private byte nivel;
+	private int nivel;
 	private String enunciado;
 	private Respuesta[] respuestas = new Respuesta[4];
-	private byte seleccion;
+	private int seleccion;
+	private int indice;
+	Scanner scan = new Scanner(System.in);
 
 	/**
 	 * @param nivel
 	 * @param enunciado
 	 */
-	public Pregunta(byte nivel, String enunciado) {
+	public Pregunta(int indice, int nivel, String enunciado) {
 		super();
+		this.indice = indice;
 		this.nivel = nivel;
 		this.enunciado = enunciado;
 	}
 
-	public void generarRespuestas(String enunciadoV, String enunciadoF1, String enunciadoF2, String enunciadoF3) {
-		byte indiceV = (byte) (Math.random() * 4);
-
-		Respuesta correcta = new Respuesta(indiceV, enunciado, true);
+	public void generarRespuestas() {
+		int indiceV = (int) (Math.random() * 4);
+		System.out.println("Ingrese el enunciado de la respuesta CORRECTA:");
+		String enunciadoV = scan.nextLine();		
+		Respuesta correcta = new Respuesta(enunciadoV, true);
+				
 		respuestas[indiceV] = correcta;
+		
+		Respuesta incorrecta1 = configurarRespuestaIncorrecta(1);
+		insertarRespuesta(incorrecta1);
+		Respuesta incorrecta2 = configurarRespuestaIncorrecta(2);
+		insertarRespuesta(incorrecta2);
+		Respuesta incorrecta3 = configurarRespuestaIncorrecta(3);
+		insertarRespuesta(incorrecta3);		
 
-		byte indiceF1;
-		byte indiceF2;
-		byte indiceF3;
+	}
 
-		if (indiceV == 0) {
-			indiceF1 = 1;
-			indiceF2 = 2;
-			indiceF3 = 3;
-		} else if (indiceV == 1) {
-			indiceF1 = 0;
-			indiceF2 = 2;
-			indiceF3 = 3;
-		} else if (indiceV == 2) {
-			indiceF1 = 0;
-			indiceF2 = 1;
-			indiceF3 = 3;
-		} else {
-			indiceF1 = 0;
-			indiceF2 = 1;
-			indiceF3 = 2;
+	public Respuesta configurarRespuestaIncorrecta(int i) {
+		System.out.println("Ingrese el enunciado de la Respuesta INCORRECTA No. " + i+":");		
+		String enunciadoF = scan.nextLine();
+		Respuesta respuesta = new Respuesta(enunciadoF, false);
+		return respuesta;
+
+	}
+	
+	public void insertarRespuesta(Respuesta respuesta) {
+		for (int i=0;i<5;++i) {			
+			if(respuestas[i]!=null) {
+				respuestas[i]=respuesta;
+				return;
+			}
 		}
-
-		Respuesta incorrecta1 = new Respuesta(indiceF1, enunciadoF1, false);
-		Respuesta incorrecta2 = new Respuesta(indiceF2, enunciadoF2, false);
-		Respuesta incorrecta3 = new Respuesta(indiceF3, enunciadoF3, false);
-
-		respuestas[indiceF1] = incorrecta1;
-		respuestas[indiceF2] = incorrecta2;
-		respuestas[indiceF3] = incorrecta3;
-
 	}
 
 	public boolean verificarRespuestaCorrecta() {
@@ -64,14 +64,14 @@ public class Pregunta {
 	/**
 	 * @return the nivel
 	 */
-	public byte getNivel() {
+	public int getNivel() {
 		return nivel;
 	}
 
 	/**
 	 * @param nivel the nivel to set
 	 */
-	public void setNivel(byte nivel) {
+	public void setNivel(int nivel) {
 		this.nivel = nivel;
 	}
 
@@ -92,14 +92,14 @@ public class Pregunta {
 	/**
 	 * @return the seleccion
 	 */
-	public byte getSeleccion() {
+	public int getSeleccion() {
 		return seleccion;
 	}
 
 	/**
 	 * @param seleccion the seleccion to set
 	 */
-	public void setSeleccion(byte seleccion) {
+	public void setSeleccion(int seleccion) {
 		this.seleccion = seleccion;
 	}
 
@@ -108,6 +108,20 @@ public class Pregunta {
 	 */
 	public Respuesta[] getRespuestas() {
 		return respuestas;
+	}
+
+	/**
+	 * @return the indice
+	 */
+	public int getIndice() {
+		return indice;
+	}
+
+	/**
+	 * @param indice the indice to set
+	 */
+	public void setIndice(int indice) {
+		this.indice = indice;
 	}
 
 	@Override
