@@ -33,12 +33,13 @@ public class Principal {
 		
 		int ronda = 1;
 		Categoria categoria1 = concurso.getCategorias()[0];
+		Premio premioActual = categoria1.getPremio();
 		sleep(3000);
 		System.out.println("se muestran las preguntas de la CATEGORIA "+categoria1.getRonda()+"\n----------\n");
 		
 		
 		System.out.println("En la CATEGORIA No." + categoria1.getRonda() + ", por un PREMIO de "
-				+ categoria1.getPremio().getCantidad() +" "+ categoria1.getPremio().getTipo());
+				+ premioActual.getCantidad() +" "+ premioActual.getTipo());
 		sleep(3000);
 		System.out.println("\nResponda la siguente pregunta");
 		
@@ -47,9 +48,12 @@ public class Principal {
 		
 		concurso.responderPregunta(preguntaSeleccionada);
 		preguntaSeleccionada.verificarRespuestaCorrecta();
+		sleep(3000);
 		
 		if(preguntaSeleccionada.verificarRespuestaCorrecta()) {
 			System.out.println("Respuesta CORRECTA!");
+			concurso.aumentarNivel(jugador, premioActual.getCantidad(), categoria1.getRonda());
+			System.out.println(jugador);
 		}
 		else {
 			System.out.println("WHAT A NOOB");

@@ -60,7 +60,7 @@ public class Pregunta {
 	}
 	
 	public void mostrarEnunciado() {
-		System.out.println(this.enunciado+"\n");
+		System.out.println("\n"+this.enunciado+"\n");
 		for (int i=1;i<5;++i) {
 		System.out.println(i+". "+getRespuestas()[i-1].getEnunciado()+"\n");
 		}

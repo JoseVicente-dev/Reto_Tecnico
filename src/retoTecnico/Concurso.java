@@ -1,6 +1,12 @@
 package retoTecnico;
 
 import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Scanner;
@@ -11,6 +17,7 @@ public class Concurso {
 	private String fechaFinal;
 	private Categoria[] categorias = new Categoria[5];
 	private Scanner scan = new Scanner(System.in);
+	private Jugador jugador;
 
 	/**
 	 * @param fechaInicial
@@ -93,7 +100,67 @@ public class Concurso {
 	
 	public void iniciarJuego() {
 		
+		crearJugador();
+		for (int i=0;i<6;++i) {
+			
+			int ronda = i+1;
+			Categoria categoria = getCategorias()[i];
+			Premio premioActual = categoria.getPremio();
+			sleep(3000);
+			System.out.println("se muestran las preguntas de la CATEGORIA "+categoria.getRonda()+"\n----------\n");
+			
+			
+			System.out.println("En la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
+					+ premioActual.getCantidad() +" "+ premioActual.getTipo());
+			sleep(3000);
+			System.out.println("\nResponda la siguente pregunta");
+			
+			Pregunta preguntaSeleccionada = categoria.getPreguntas()[0];
+			preguntaSeleccionada.mostrarEnunciado();
+			
+			responderPregunta(preguntaSeleccionada);
+			preguntaSeleccionada.verificarRespuestaCorrecta();
+			sleep(3000);
+			
+			if(preguntaSeleccionada.verificarRespuestaCorrecta()) {
+				System.out.println("Respuesta CORRECTA!");
+				aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
+				System.out.println(jugador);
+			}
+			else {
+				System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
+				break;
+			}
+		}
+		
+		
 	}
+	
+	public void crearJugador() {
+		System.out.println("//-------------------------//");
+		System.out.println("Introduzca los datos del JUGADOR");
+		System.out.println("//-------------------------//");
+		int identificacion;
+		do {
+			System.out.println("Introduzca NUMERO DE IDENTIFICACION:");
+			while (!scan.hasNextInt()) {
+				String input = scan.next();
+				System.out.println("<" + input + "> no es un valor válido.");
+
+			}
+			identificacion = scan.nextInt();
+		} while (identificacion < 0);
+		
+		
+		System.out.println("Introduzca NOMBRE:");
+		String nombres =scan.nextLine();
+		System.out.println("Introduzca APELLIDOS:");
+		String apellidos =scan.nextLine();
+		
+		this.jugador = new Jugador(identificacion, nombres, apellidos, this.fechaInicial);
+	}
+	
+	
 	
 	public void responderPregunta(Pregunta pregunta) {
 		int seleccion;
@@ -109,6 +176,20 @@ public class Concurso {
 		
 		pregunta.setSeleccion(seleccion);	
 		
+	}
+	
+	public void aumentarNivel(Jugador jugador, int premio, int nivelMaximoAlcanzado) {
+		jugador.aumentarPuntaje(premio);
+		jugador.setNivelMaximoAlcanzado(nivelMaximoAlcanzado);
+	}
+	
+	private static void sleep(long millies) {
+		try {
+			Thread.sleep(millies);
+		} catch (InterruptedException e) {
+			System.out.println("Hilo interrumpido");
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	/**
@@ -139,10 +220,26 @@ public class Concurso {
 		return categorias;
 	}
 
+	/**
+	 * @return the jugador
+	 */
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	/**
+	 * @param jugador the jugador to set
+	 */
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
 	@Override
 	public String toString() {
-		return "Concurso \n[fechaInicial=" + fechaInicial + ", \nfechaFinal=" + fechaFinal + ", \ncategorias="
-				+ Arrays.toString(categorias) + "]";
+		return "Concurso \n[fechaInicial=" + fechaInicial + ", \nfechaFinal=" + fechaFinal + ", \njugador=" + jugador
+				+ ", \ncategorias=" + Arrays.toString(categorias) + "]";
 	}
+
+	
 
 }
