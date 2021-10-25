@@ -108,6 +108,13 @@ public class Categoria {
 	}
 
 	/**
+	 * @param preguntas the preguntas to set
+	 */
+	public void setPreguntas(Pregunta[] preguntas) {
+		this.preguntas = preguntas;
+	}
+
+	/**
 	 * @return the preguntas
 	 */
 	public Pregunta[] getPreguntas() {

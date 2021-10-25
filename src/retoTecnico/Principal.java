@@ -1,15 +1,8 @@
 package retoTecnico;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class Principal {
-	
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -21,79 +14,37 @@ public class Principal {
 						+ "\nPara cada Categoría debe crear 5 preguntas del mismo nivel. En cada ronda se escogerá una al azar, por tanto debe plantear 25 preguntas en total."
 						+ "\n¡Comencemos!");
 
-		Concurso concurso = new Concurso();
-		
+		Scanner scan = new Scanner(System.in);
+		String respuesta;
+		Concurso concurso;
 
-		concurso.configurarJuego();
-		
-		System.out.println("\nA continuacion dará INICIO el concurso\n");
-		
-		concurso.iniciarJuego();
-		
-		
-		
-		
-		
-		
-		
+		do {
+			System.out.println(
+					"¿Desea usar un concurso prediseñado con enunciados tipo dummie para probar el juego? SI/NO");
+			respuesta = scan.nextLine();
+			if (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no")) {
 
-		
+				System.out.println("<" + respuesta + "> no es una opción válida");
+			}
 
-//		try {
-//
-//			// Se crean las variables donde se guardará cada campo de la tabla
-//			int documento;
-//			String nombres, apellidos, ciudad;
-//
-//			// Carga del driver de SQLite
-//			Class.forName("org.sqlite.JDBC");
-//
-//			// Conexion con la BD usando un relative path
-//			String url = "jdbc:sqlite:concesionario.db";
-//			Connection conexion = DriverManager.getConnection(url);
-//
-//			/*
-//			 * Creacion de una consulta, en este caso, obtener todos los registros de la
-//			 * tabla vendedores. Notese que se usa el lenguaje SQL
-//			 */
-//			String sentencia = "SELECT * FROM vendedores;";
-//
-//			// Objeto que representa una consulta a la BD
-//			Statement consulta = conexion.createStatement();
-//
-//			// Se crea un ResultSet con los resultados de la consulta y se itera sobre el
-//			// mismo
-//			ResultSet resultados = consulta.executeQuery(sentencia);
-//			System.out.println("Listado de Vendedores");
-//			while (resultados.next()) {
-//				documento = resultados.getInt("documentovendedor");
-//				nombres = resultados.getString("nombres");
-//				apellidos = resultados.getString("apellidos");
-//				ciudad = resultados.getString("ciudad");
-//
-//				System.out.println("Documento: " + documento + " Nombres: " + nombres + " Apellidos: " + apellidos
-//						+ " Ciudad: " + ciudad);
-//			}
-//			// Se cierra la conexion
-//			conexion.close();
-//
-//		} catch (ClassNotFoundException e) {
-//			System.out.println("No fue posible cargar el driver.");
-//		}
-//
-//		catch (SQLException e) {
-//			System.out.println("Hubo un error al acceder a la base de datos: " + e.getMessage());
-//		}
+		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no"));
 
-	}
-	
-	private static void sleep(long millies) {
-		try {
-			Thread.sleep(millies);
-		} catch (InterruptedException e) {
-			System.out.println("Hilo interrumpido");
-			Thread.currentThread().interrupt();
+		if (respuesta.equalsIgnoreCase("si")) {
+			
+			ConcursoPrefabricado concursoPrediPrefabricado = new ConcursoPrefabricado();
+			concurso = concursoPrediPrefabricado.concursoPredisenado();
 		}
+
+		else {
+			concurso = new Concurso();
+
+			concurso.configurarJuego();
+		}
+
+		System.out.println("\nA continuacion dará INICIO el concurso\n");
+
+		concurso.iniciarJuego();
+
 	}
 
 }

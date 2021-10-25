@@ -122,6 +122,13 @@ public class Pregunta {
 	}
 
 	/**
+	 * @param respuestas the respuestas to set
+	 */
+	public void setRespuestas(Respuesta[] respuestas) {
+		this.respuestas = respuestas;
+	}
+
+	/**
 	 * @return the indice
 	 */
 	public int getIndice() {

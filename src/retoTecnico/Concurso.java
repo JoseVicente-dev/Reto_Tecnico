@@ -33,7 +33,7 @@ public class Concurso {
 	public void configurarJuego() {
 		String tipoDePremio;
 		do {
-			System.out.println("Ingrese el TIPO DE PREMIO que se otorgará en todas las Categorías (PUNTOS o DINERO)");
+			System.out.println("Configure el TIPO DE PREMIO que se otorgará en todas las Categorías (PUNTOS o DINERO)");
 			tipoDePremio = scan.nextLine();
 			if (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos")) {
 
@@ -43,7 +43,7 @@ public class Concurso {
 		} while (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos"));
 
 		if (tipoDePremio.equalsIgnoreCase("dinero")) {
-			tipoDePremio = "dólares";
+			tipoDePremio = "dolares";
 		}
 
 		Categoria categoria1 = configurarCategoria(1, tipoDePremio.toLowerCase());
@@ -51,7 +51,7 @@ public class Concurso {
 		Categoria categoria3 = configurarCategoria(3, tipoDePremio.toLowerCase());
 		Categoria categoria4 = configurarCategoria(4, tipoDePremio.toLowerCase());
 		Categoria categoria5 = configurarCategoria(5, tipoDePremio.toLowerCase());
-//
+
 		categorias[0] = categoria1;
 		categorias[1] = categoria2;
 		categorias[2] = categoria3;
@@ -65,7 +65,8 @@ public class Concurso {
 	public Categoria configurarCategoria(int ronda, String tipoDePremio) {
 		int cantidadPremio;
 		do {
-			System.out.println("Ingrese el premio de la Categoria No: " + ronda + dificultadRonda(ronda) + ":");
+			System.out.println(
+					"\nConfigure el PREMIO que otorgará la Categoria No: " + ronda + dificultadRonda(ronda) + ":");
 			while (!scan.hasNextInt()) {
 				String input = scan.next();
 				System.out.println("<" + input + "> no es un valor válido.");
@@ -77,7 +78,7 @@ public class Concurso {
 		Premio premio = new Premio(tipoDePremio, cantidadPremio);
 		Categoria categoria = new Categoria(ronda, premio);
 		categoria.generarPreguntas();
-		System.out.println("CATEGORÍA " + ronda + " TERMINADA");
+		System.out.println("CATEGORÍA " + ronda + " configurada");
 		System.out.println("//=========================//");
 		return categoria;
 	}
@@ -104,60 +105,62 @@ public class Concurso {
 		crearJugador();
 		conectarBD();
 		insertarBD(jugador);
-		
-		for (int i = 0; i < 6; ++i) {
-			
-			
+
+		for (int i = 0; i < 5; ++i) {
+
 			Categoria categoria = getCategorias()[i];
 			Premio premioActual = categoria.getPremio();
-			int ronda =categoria.getRonda();
+			int ronda = categoria.getRonda();
 			sleep(3000);
 			System.out.println("\n----------\n");
 
-			System.out.println("En la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
+			System.out.println("Usted está la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
-			
+
 			boolean finDelJuego = finDelJuegoVoluntario(ronda);
-			
+
 			if (finDelJuego) {
 				System.out.println("Es una pena que te retires. Mejor suerte para la proxima");
 				return;
 			}
-			
+
 			else {
-				
+
 				sleep(3000);
 				System.out.println("\nResponda la siguente pregunta");
-				
-				Pregunta preguntaSeleccionada = categoria.getPreguntas()[0];
+
+				Pregunta preguntaSeleccionada = categoria.preguntaAlAzar();
 				preguntaSeleccionada.mostrarEnunciado();
-				
+
 				responderPregunta(preguntaSeleccionada);
 				preguntaSeleccionada.verificarRespuestaCorrecta();
 				sleep(3000);
-				
+
 				if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
 					System.out.println("Respuesta CORRECTA!");
-					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());					
+					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
 					conectarBD();
 					actualizarBD(jugador);
-					leerBD();
-					
-					
+					if(jugador.getNivelMaximoAlcanzado()==5) {
+						System.out.println("¡HURRA!\\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/¡HURRA!");
+						System.out.println("\n¡FELICIDADES! Eres el GANADOR del concurso.\n");
+						System.out.println("\\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/");
+						leerBD();
+					}
+
 				} else {
 					System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
 					finDelJuegoForzado(ronda);
 					return;
 				}
 			}
-			
-			
+
 		}
 
 	}
 
 	public void crearJugador() {
-		
+
 		System.out.println("//-------------------------//");
 		System.out.println("Introduzca los datos del JUGADOR");
 		System.out.println("//-------------------------//");
@@ -173,28 +176,26 @@ public class Concurso {
 			}
 			identificacion = scan.nextInt();
 		} while (identificacion < 0);
-		
-		
+
 		do {
 			System.out.println("Introduzca NOMBRES:");
 			nombres = scan.nextLine();
-			if (nombres.equalsIgnoreCase("") || nombres==null) {
+			if (nombres.equalsIgnoreCase("") || nombres == null) {
 
 				System.out.println("Los nombres no pueden ser vacíos");
 			}
 
-		} while (nombres.equalsIgnoreCase("") || nombres==null);
-		
-		
+		} while (nombres.equalsIgnoreCase("") || nombres == null);
+
 		do {
 			System.out.println("Introduzca APELLIDOS:");
 			apellidos = scan.nextLine();
-			if (apellidos.equalsIgnoreCase("") || apellidos==null) {
+			if (apellidos.equalsIgnoreCase("") || apellidos == null) {
 
 				System.out.println("Los apellidos no pueden ser vacíos");
 			}
 
-		} while (apellidos.equalsIgnoreCase("") || apellidos==null);
+		} while (apellidos.equalsIgnoreCase("") || apellidos == null);
 
 		this.jugador = new Jugador(identificacion, nombres.toLowerCase(), apellidos.toLowerCase(), this.fechaInicial);
 	}
@@ -239,8 +240,8 @@ public class Concurso {
 			finDelJuego = true;
 			this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 			jugador.setEstado("retirado");
-			jugador.setNivelMaximoAlcanzado(ronda);
-			
+			jugador.setNivelMaximoAlcanzado(ronda - 1);
+
 			conectarBD();
 			actualizarBD(this.jugador);
 			leerBD();
@@ -249,22 +250,20 @@ public class Concurso {
 
 		return finDelJuego;
 	}
-	
+
 	public boolean finDelJuegoForzado(int ronda) {
-		
-		boolean finDelJuego= true;
+
+		boolean finDelJuego = true;
 		this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		jugador.setEstado("eliminado");
-		jugador.setNivelMaximoAlcanzado(ronda);
-		
+		jugador.setNivelMaximoAlcanzado(ronda - 1);
+
 		conectarBD();
 		actualizarBD(this.jugador);
 		leerBD();
-		
+
 		return finDelJuego;
-		
-		
-		
+
 	}
 
 	private static void sleep(long millies) {
@@ -309,7 +308,7 @@ public class Concurso {
 		int nivelMaximo = jugador.getNivelMaximoAlcanzado();
 
 		String sentencia = "INSERT INTO Jugadores (identificacion, nombres, apellidos, puntaje, fecha_participacion, estado, nivel_maximo) VALUES (?,?,?,?,?,?,?);";
-		
+
 		try (Connection conexion = this.conectarBD(); PreparedStatement pstmt = conexion.prepareStatement(sentencia)) {
 			pstmt.setInt(1, identificacion);
 			pstmt.setString(2, nombres);
@@ -323,11 +322,9 @@ public class Concurso {
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			
-			
-		}
-		leerBD();
-		
+
+		}		
+
 	}
 
 	public void leerBD() {
@@ -356,9 +353,9 @@ public class Concurso {
 				fechaParticipacion = resultados.getString("fecha_participacion");
 				nivelMaximo = resultados.getInt("nivel_maximo");
 
-				System.out.println("identificacion=" + identificacion + ", nombres=" + nombres + ", apellidos="
-						+ apellidos + ", puntaje=" + puntaje + ", fechaParticipacion=" + fechaParticipacion
-						+ ", estado=" + estado + ", nivelMaximoAlcanzado=" + nivelMaximo);
+				System.out.println("Identificacion: " + identificacion + ", Nombres: " + nombres + ", Apellidos: "
+						+ apellidos + ", Puntaje obtenido: " + puntaje + ", Fecha de participacion: "
+						+ fechaParticipacion + ", Estado: " + estado + ", Nivel Maximo Alcanzado: " + nivelMaximo);
 			}
 			// Se cierra la conexion
 			conexion.close();
@@ -370,8 +367,8 @@ public class Concurso {
 	}
 
 	public void actualizarBD(Jugador jugador) {
-		
-		//UPDATE
+
+		// UPDATE
 		int identificacion = jugador.getIdentificacion();
 		int puntaje = jugador.getPuntaje();
 		String estado = jugador.getEstado();
@@ -420,6 +417,13 @@ public class Concurso {
 	 */
 	public Categoria[] getCategorias() {
 		return categorias;
+	}
+
+	/**
+	 * @param categorias the categorias to set
+	 */
+	public void setCategorias(Categoria[] categorias) {
+		this.categorias = categorias;
 	}
 
 	/**
