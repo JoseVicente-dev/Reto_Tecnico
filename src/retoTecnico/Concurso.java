@@ -102,44 +102,67 @@ public class Concurso {
 	public void iniciarJuego() {
 
 		crearJugador();
+		conectarBD();
+		insertarBD(jugador);
+		
 		for (int i = 0; i < 6; ++i) {
+			
 			
 			Categoria categoria = getCategorias()[i];
 			Premio premioActual = categoria.getPremio();
+			int ronda =categoria.getRonda();
 			sleep(3000);
 			System.out.println("se muestran las preguntas de la CATEGORIA " + categoria.getRonda() + "\n----------\n");
 
 			System.out.println("En la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
 			
+			boolean finDelJuego = finDelJuegoVoluntario(ronda);
 			
-			sleep(3000);
-			System.out.println("\nResponda la siguente pregunta");
-
-			Pregunta preguntaSeleccionada = categoria.getPreguntas()[0];
-			preguntaSeleccionada.mostrarEnunciado();
-
-			responderPregunta(preguntaSeleccionada);
-			preguntaSeleccionada.verificarRespuestaCorrecta();
-			sleep(3000);
-
-			if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
-				System.out.println("Respuesta CORRECTA!");
-				aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
-				System.out.println(jugador);
-			} else {
-				System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
-				break;
+			if (finDelJuego) {
+				System.out.println("Es una pena que te retires. Mejor suerte para la proxima");
 			}
+			
+			else {
+				
+				sleep(3000);
+				System.out.println("\nResponda la siguente pregunta");
+				
+				Pregunta preguntaSeleccionada = categoria.getPreguntas()[0];
+				preguntaSeleccionada.mostrarEnunciado();
+				
+				responderPregunta(preguntaSeleccionada);
+				preguntaSeleccionada.verificarRespuestaCorrecta();
+				sleep(3000);
+				
+				if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
+					System.out.println("Respuesta CORRECTA!");
+					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
+					System.out.println(jugador);
+					conectarBD();
+					actualizarBD(jugador);
+					leerBD();
+					
+					
+				} else {
+					System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
+					finDelJuegoForzado(ronda);
+				}
+			}
+			
+			
 		}
 
 	}
 
 	public void crearJugador() {
+		
 		System.out.println("//-------------------------//");
 		System.out.println("Introduzca los datos del JUGADOR");
 		System.out.println("//-------------------------//");
 		int identificacion;
+		String nombres;
+		String apellidos;
 		do {
 			System.out.println("Introduzca NUMERO DE IDENTIFICACION:");
 			while (!scan.hasNextInt()) {
@@ -149,11 +172,28 @@ public class Concurso {
 			}
 			identificacion = scan.nextInt();
 		} while (identificacion < 0);
+		
+		
+		do {
+			System.out.println("Introduzca NOMBRES:");
+			nombres = scan.nextLine();
+			if (nombres.equalsIgnoreCase("") || nombres==null) {
 
-		System.out.println("Introduzca NOMBRE:");
-		String nombres = scan.nextLine();
-		System.out.println("Introduzca APELLIDOS:");
-		String apellidos = scan.nextLine();
+				System.out.println("Los nombres no pueden ser vacíos");
+			}
+
+		} while (nombres.equalsIgnoreCase("") || nombres==null);
+		
+		
+		do {
+			System.out.println("Introduzca APELLIDOS:");
+			apellidos = scan.nextLine();
+			if (apellidos.equalsIgnoreCase("") || apellidos==null) {
+
+				System.out.println("Los apellidos no pueden ser vacíos");
+			}
+
+		} while (apellidos.equalsIgnoreCase("") || apellidos==null);
 
 		this.jugador = new Jugador(identificacion, nombres.toLowerCase(), apellidos.toLowerCase(), this.fechaInicial);
 	}
@@ -178,12 +218,11 @@ public class Concurso {
 		jugador.aumentarPuntaje(premio);
 		jugador.setNivelMaximoAlcanzado(nivelMaximoAlcanzado);
 	}
-	
-	
-	public boolean finDelJuegoVoluntario() {
-		
-		boolean finDelJuego =false;
-		
+
+	public boolean finDelJuegoVoluntario(int ronda) {
+
+		boolean finDelJuego = false;
+
 		String respuesta;
 		do {
 			System.out.println("¿Desea CONTINUAR? SI/NO");
@@ -194,12 +233,37 @@ public class Concurso {
 			}
 
 		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("puntos"));
-		
+
 		if (respuesta.equalsIgnoreCase("si")) {
-			finDelJuego=true;
+			finDelJuego = true;
+			this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+			jugador.setEstado("retirado");
+			jugador.setNivelMaximoAlcanzado(ronda);
+			
+			conectarBD();
+			actualizarBD(this.jugador);
+			leerBD();
+			return finDelJuego;
 		}
+
+		return finDelJuego;
+	}
+	
+	public boolean finDelJuegoForzado(int ronda) {
+		
+		boolean finDelJuego= true;
+		this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		jugador.setEstado("eliminado");
+		jugador.setNivelMaximoAlcanzado(ronda);
+		
+		conectarBD();
+		actualizarBD(this.jugador);
+		leerBD();
 		
 		return finDelJuego;
+		
+		
+		
 	}
 
 	private static void sleep(long millies) {
@@ -244,7 +308,7 @@ public class Concurso {
 		int nivelMaximo = jugador.getNivelMaximoAlcanzado();
 
 		String sentencia = "INSERT INTO Jugadores (identificacion, nombres, apellidos, puntaje, fecha_participacion, estado, nivel_maximo) VALUES (?,?,?,?,?,?,?);";
-
+		
 		try (Connection conexion = this.conectarBD(); PreparedStatement pstmt = conexion.prepareStatement(sentencia)) {
 			pstmt.setInt(1, identificacion);
 			pstmt.setString(2, nombres);
@@ -254,10 +318,14 @@ public class Concurso {
 			pstmt.setString(6, fechaPartipacion);
 			pstmt.setInt(7, nivelMaximo);
 			pstmt.executeUpdate();
+			conexion.close();
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			
+			
 		}
+		
 	}
 
 	public void leerBD() {
@@ -282,7 +350,7 @@ public class Concurso {
 				nombres = resultados.getString("nombres");
 				apellidos = resultados.getString("apellidos");
 				puntaje = resultados.getInt("puntaje");
-				estado = resultados.getString("estdo");
+				estado = resultados.getString("estado");
 				fechaParticipacion = resultados.getString("fecha_participacion");
 				nivelMaximo = resultados.getInt("nivel_maximo");
 
@@ -300,6 +368,8 @@ public class Concurso {
 	}
 
 	public void actualizarBD(Jugador jugador) {
+		
+		//UPDATE
 		int identificacion = jugador.getIdentificacion();
 		int puntaje = jugador.getPuntaje();
 		String estado = jugador.getEstado();

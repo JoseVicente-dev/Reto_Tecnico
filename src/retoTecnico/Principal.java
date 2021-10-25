@@ -26,38 +26,12 @@ public class Principal {
 
 		concurso.configurarJuego();
 		
-		System.out.println("\nA continuacion dará inicio el concurso");
+		System.out.println("\nA continuacion dará INICIO el concurso\n");
 		
-		Jugador jugador = new Jugador(1062282697, "Jose", "Velasco", concurso.getFechaInicial());
-		
-		
-		int ronda = 1;
-		Categoria categoria1 = concurso.getCategorias()[0];
-		Premio premioActual = categoria1.getPremio();
-		sleep(3000);
-		System.out.println("se muestran las preguntas de la CATEGORIA "+categoria1.getRonda()+"\n----------\n");
+		concurso.iniciarJuego();
 		
 		
-		System.out.println("En la CATEGORIA No." + categoria1.getRonda() + ", por un PREMIO de "
-				+ premioActual.getCantidad() +" "+ premioActual.getTipo());
-		sleep(3000);
-		System.out.println("\nResponda la siguente pregunta");
 		
-		Pregunta preguntaSeleccionada = categoria1.getPreguntas()[0];
-		preguntaSeleccionada.mostrarEnunciado();
-		
-		concurso.responderPregunta(preguntaSeleccionada);
-		preguntaSeleccionada.verificarRespuestaCorrecta();
-		sleep(3000);
-		
-		if(preguntaSeleccionada.verificarRespuestaCorrecta()) {
-			System.out.println("Respuesta CORRECTA!");
-			concurso.aumentarNivel(jugador, premioActual.getCantidad(), categoria1.getRonda());
-			System.out.println(jugador);
-		}
-		else {
-			System.out.println("WHAT A NOOB");
-		}
 		
 		
 		
