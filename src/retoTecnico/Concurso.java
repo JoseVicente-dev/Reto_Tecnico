@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,9 +41,9 @@ public class Concurso {
 			}
 
 		} while (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos"));
-		
-		if (tipoDePremio.equalsIgnoreCase("dinero")){
-			tipoDePremio="dólares";
+
+		if (tipoDePremio.equalsIgnoreCase("dinero")) {
+			tipoDePremio = "dólares";
 		}
 
 		Categoria categoria1 = configurarCategoria(1, tipoDePremio.toLowerCase());
@@ -97,45 +98,43 @@ public class Concurso {
 		}
 		return dificultad;
 	}
-	
+
 	public void iniciarJuego() {
-		
+
 		crearJugador();
-		for (int i=0;i<6;++i) {
+		for (int i = 0; i < 6; ++i) {
 			
-			int ronda = i+1;
 			Categoria categoria = getCategorias()[i];
 			Premio premioActual = categoria.getPremio();
 			sleep(3000);
-			System.out.println("se muestran las preguntas de la CATEGORIA "+categoria.getRonda()+"\n----------\n");
-			
-			
+			System.out.println("se muestran las preguntas de la CATEGORIA " + categoria.getRonda() + "\n----------\n");
+
 			System.out.println("En la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
-					+ premioActual.getCantidad() +" "+ premioActual.getTipo());
+					+ premioActual.getCantidad() + " " + premioActual.getTipo());
+			
+			
 			sleep(3000);
 			System.out.println("\nResponda la siguente pregunta");
-			
+
 			Pregunta preguntaSeleccionada = categoria.getPreguntas()[0];
 			preguntaSeleccionada.mostrarEnunciado();
-			
+
 			responderPregunta(preguntaSeleccionada);
 			preguntaSeleccionada.verificarRespuestaCorrecta();
 			sleep(3000);
-			
-			if(preguntaSeleccionada.verificarRespuestaCorrecta()) {
+
+			if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
 				System.out.println("Respuesta CORRECTA!");
 				aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
 				System.out.println(jugador);
-			}
-			else {
+			} else {
 				System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
 				break;
 			}
 		}
-		
-		
+
 	}
-	
+
 	public void crearJugador() {
 		System.out.println("//-------------------------//");
 		System.out.println("Introduzca los datos del JUGADOR");
@@ -150,39 +149,59 @@ public class Concurso {
 			}
 			identificacion = scan.nextInt();
 		} while (identificacion < 0);
-		
-		
+
 		System.out.println("Introduzca NOMBRE:");
-		String nombres =scan.nextLine();
+		String nombres = scan.nextLine();
 		System.out.println("Introduzca APELLIDOS:");
-		String apellidos =scan.nextLine();
-		
-		this.jugador = new Jugador(identificacion, nombres, apellidos, this.fechaInicial);
+		String apellidos = scan.nextLine();
+
+		this.jugador = new Jugador(identificacion, nombres.toLowerCase(), apellidos.toLowerCase(), this.fechaInicial);
 	}
-	
-	
-	
+
 	public void responderPregunta(Pregunta pregunta) {
 		int seleccion;
 		do {
 			System.out.println("Escoja una RESPUESTA:");
 			while (!scan.hasNextInt()) {
 				String input = scan.next();
-				System.out.println("<" + input + "> no es un valor válido.");
+				System.out.println("<" + input + "> no es una opción válida.");
 
 			}
 			seleccion = scan.nextInt();
-		} while (seleccion<1 && seleccion>4);
-		
-		pregunta.setSeleccion(seleccion);	
-		
+		} while (seleccion < 1 && seleccion > 4);
+
+		pregunta.setSeleccion(seleccion);
+
 	}
-	
+
 	public void aumentarNivel(Jugador jugador, int premio, int nivelMaximoAlcanzado) {
 		jugador.aumentarPuntaje(premio);
 		jugador.setNivelMaximoAlcanzado(nivelMaximoAlcanzado);
 	}
 	
+	
+	public boolean finDelJuegoVoluntario() {
+		
+		boolean finDelJuego =false;
+		
+		String respuesta;
+		do {
+			System.out.println("¿Desea CONTINUAR? SI/NO");
+			respuesta = scan.nextLine();
+			if (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no")) {
+
+				System.out.println("<" + respuesta + "> no es una opción válida");
+			}
+
+		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("puntos"));
+		
+		if (respuesta.equalsIgnoreCase("si")) {
+			finDelJuego=true;
+		}
+		
+		return finDelJuego;
+	}
+
 	private static void sleep(long millies) {
 		try {
 			Thread.sleep(millies);
@@ -190,6 +209,117 @@ public class Concurso {
 			System.out.println("Hilo interrumpido");
 			Thread.currentThread().interrupt();
 		}
+	}
+
+	public Connection conectarBD() {
+		Connection conexion = null;
+		try {
+			// Carga del driver de SQLite
+			Class.forName("org.sqlite.JDBC");
+
+			// Conexion con la BD usando un relative path
+			String url = "jdbc:sqlite:concurso.db";
+			conexion = DriverManager.getConnection(url);
+
+		} catch (ClassNotFoundException e) {
+			System.out.println("No fue posible cargar el driver.");
+		}
+
+		catch (SQLException e) {
+			System.out.println("Hubo un error al acceder a la base de datos: " + e.getMessage());
+		}
+
+		return conexion;
+
+	}
+
+	public void insertarBD(Jugador jugador) {
+		// CREATE
+		int identificacion = jugador.getIdentificacion();
+		String nombres = jugador.getNombres();
+		String apellidos = jugador.getApellidos();
+		int puntaje = jugador.getPuntaje();
+		String estado = jugador.getEstado();
+		String fechaPartipacion = jugador.getFechaParticipacion();
+		int nivelMaximo = jugador.getNivelMaximoAlcanzado();
+
+		String sentencia = "INSERT INTO Jugadores (identificacion, nombres, apellidos, puntaje, fecha_participacion, estado, nivel_maximo) VALUES (?,?,?,?,?,?,?);";
+
+		try (Connection conexion = this.conectarBD(); PreparedStatement pstmt = conexion.prepareStatement(sentencia)) {
+			pstmt.setInt(1, identificacion);
+			pstmt.setString(2, nombres);
+			pstmt.setString(3, apellidos);
+			pstmt.setInt(4, puntaje);
+			pstmt.setString(5, estado);
+			pstmt.setString(6, fechaPartipacion);
+			pstmt.setInt(7, nivelMaximo);
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public void leerBD() {
+		// READ
+		String sentencia = "SELECT * FROM jugadores;";
+
+		try (Connection conexion = this.conectarBD();
+				Statement consulta = conexion.createStatement();
+				ResultSet resultados = consulta.executeQuery(sentencia);) {
+
+			int identificacion;
+			String nombres;
+			String apellidos;
+			int puntaje;
+			String estado;
+			String fechaParticipacion;
+			int nivelMaximo;
+
+			System.out.println("Listado de Jugadores");
+			while (resultados.next()) {
+				identificacion = resultados.getInt("identificacion");
+				nombres = resultados.getString("nombres");
+				apellidos = resultados.getString("apellidos");
+				puntaje = resultados.getInt("puntaje");
+				estado = resultados.getString("estdo");
+				fechaParticipacion = resultados.getString("fecha_participacion");
+				nivelMaximo = resultados.getInt("nivel_maximo");
+
+				System.out.println("identificacion=" + identificacion + ", nombres=" + nombres + ", apellidos="
+						+ apellidos + ", puntaje=" + puntaje + ", fechaParticipacion=" + fechaParticipacion
+						+ ", estado=" + estado + ", nivelMaximoAlcanzado=" + nivelMaximo);
+			}
+			// Se cierra la conexion
+			conexion.close();
+		}
+
+		catch (SQLException e) {
+			System.out.println("Hubo un error al acceder a la base de datos: " + e.getMessage());
+		}
+	}
+
+	public void actualizarBD(Jugador jugador) {
+		int identificacion = jugador.getIdentificacion();
+		int puntaje = jugador.getPuntaje();
+		String estado = jugador.getEstado();
+		int nivelMaximo = jugador.getNivelMaximoAlcanzado();
+
+		String sentencia = "UPDATE jugadores SET puntaje = ?, estado = ?, nivel_maximo=? WHERE identificacion =?;";
+
+		try (Connection conexion = this.conectarBD(); PreparedStatement pstmt = conexion.prepareStatement(sentencia)) {
+
+			pstmt.setInt(1, puntaje);
+			pstmt.setString(2, estado);
+			pstmt.setInt(3, nivelMaximo);
+			pstmt.setInt(4, identificacion);
+			pstmt.executeUpdate();
+			conexion.close();
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	/**
@@ -239,7 +369,5 @@ public class Concurso {
 		return "Concurso \n[fechaInicial=" + fechaInicial + ", \nfechaFinal=" + fechaFinal + ", \njugador=" + jugador
 				+ ", \ncategorias=" + Arrays.toString(categorias) + "]";
 	}
-
-	
 
 }

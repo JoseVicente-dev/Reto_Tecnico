@@ -136,5 +136,7 @@ public class Jugador {
 				+ ", \npuntaje=" + puntaje + ", \nfechaParticipacion=" + fechaParticipacion + ", \nestado=" + estado
 				+ ", \nnivelMaximoAlcanzado=" + nivelMaximoAlcanzado + "]";
 	}
+	
+	
 
 }
