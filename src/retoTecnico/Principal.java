@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Principal {
+	
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -18,20 +20,26 @@ public class Principal {
 						+ "\nCada ronda equivale a una Categoría o nivel de dificultad, iniciando con las preguntas de menor dificultad y ascendiendo hasta las más difíciles."
 						+ "\nPara cada Categoría debe crear 5 preguntas del mismo nivel. En cada ronda se escogerá una al azar, por tanto debe plantear 25 preguntas en total."
 						+ "\n¡Comencemos!");
-		
+
 		Concurso concurso = new Concurso();
 		
-		concurso.generarCategorias();
+
+		concurso.configurarJuego();
 		
-		System.out.println(concurso.toString());
+		System.out.println("\nA continuacion dará inicio el concurso");
+		
+		Jugador jugador = new Jugador(identificacion, nombres, apellidos, concurso.getFechaInicial());
 		
 		
-		
-		
-		
-		
-				
-		
+		int ronda = 1;
+		Categoria categoria1 = concurso.getCategorias()[0];
+		Pregunta preguntaSeleccionada = categoria1.preguntaAlAzar();
+		System.out.println("Por la CATEGORIA No." + categoria1.getRonda() + ", por un PREMIO de "
+				+ categoria1.getPremio().getCantidad() +" "+ categoria1.getPremio().getTipo());
+
+		System.out.println("");
+
+		System.out.println(concurso.getCategorias()[0]);
 
 //		try {
 //

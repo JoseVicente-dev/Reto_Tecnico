@@ -2,7 +2,7 @@ package retoTecnico;
 
 public class Respuesta {
 	
-	private int indice;
+//	private int indice;
 	private String enunciado;
 	private boolean respuestaCorrecta;
 	
@@ -17,19 +17,19 @@ public class Respuesta {
 		this.respuestaCorrecta = respuestaCorrecta;
 	}
 
-	/**
-	 * @return the indice
-	 */
-	public int getIndice() {
-		return indice;
-	}
-
-	/**
-	 * @param indice the indice to set
-	 */
-	public void setIndice(int indice) {
-		this.indice = indice;
-	}
+//	/**
+//	 * @return the indice
+//	 */
+//	public int getIndice() {
+//		return indice;
+//	}
+//
+//	/**
+//	 * @param indice the indice to set
+//	 */
+//	public void setIndice(int indice) {
+//		this.indice = indice;
+//	}
 
 	/**
 	 * @return the enunciado
@@ -61,9 +61,9 @@ public class Respuesta {
 
 	@Override
 	public String toString() {
-		return "Respuesta \n[indice=" + indice + ", \nenunciado=" + enunciado + ", \nrespuestaCorrecta="
-				+ respuestaCorrecta + "]";
+		return "Respuesta \n[enunciado=" + enunciado + ", \nrespuestaCorrecta=" + respuestaCorrecta + "]";
 	}
+
 	
 	
 	

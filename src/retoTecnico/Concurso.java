@@ -22,60 +22,67 @@ public class Concurso {
 
 	}
 
-	public void generarCategorias() {
+	public void configurarJuego() {
+		String tipoDePremio;
+		do {
+			System.out.println("Ingrese el TIPO DE PREMIO que se otorgará en todas las Categorías (PUNTOS o DINERO)");
+			tipoDePremio = scan.nextLine();
+			if (!tipoDePremio.equalsIgnoreCase("dólares") && !tipoDePremio.equalsIgnoreCase("puntos")) {
 
-		System.out.println("Ingrese el tipo de premio que se otorgará en todas las Categorías (puntos o dinero)");
-		String tipoDePremio = scan.nextLine();
+				System.out.println("<" + tipoDePremio + "> no es un tipo de premio válido");
+			}
 
-		Categoria categoria1 = configurarCategoria(1, tipoDePremio);
-//		Categoria categoria2 = configurarCategoria(2, tipoDePremio);
-//		Categoria categoria3 = configurarCategoria(3, tipoDePremio);
-//		Categoria categoria4 = configurarCategoria(4, tipoDePremio);
-//		Categoria categoria5 = configurarCategoria(5, tipoDePremio);
+		} while (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos"));
+
+		Categoria categoria1 = configurarCategoria(1, tipoDePremio.toLowerCase());
+//		Categoria categoria2 = configurarCategoria(2, tipoDePremio.toLowerCase());
+//		Categoria categoria3 = configurarCategoria(3, tipoDePremio.toLowerCase());
+//		Categoria categoria4 = configurarCategoria(4, tipoDePremio.toLowerCase());
+//		Categoria categoria5 = configurarCategoria(5, tipoDePremio.toLowerCase());
 //
 		categorias[0] = categoria1;
 //		categorias[1] = categoria2;
 //		categorias[2] = categoria3;
 //		categorias[3] = categoria4;
 //		categorias[4] = categoria5;
+		System.out.println("\nCONCURSO CONFIGURADO. LISTO PARA INICIAR");
+		System.out.println("//=========================//");
 
 	}
 
 	public Categoria configurarCategoria(int ronda, String tipoDePremio) {
 		int cantidadPremio;
 		do {
-			System.out.println("Ingrese el premio de la Categoria No: " + ronda +  dificultadRonda(ronda)+  ":");
+			System.out.println("Ingrese el premio de la Categoria No: " + ronda + dificultadRonda(ronda) + ":");
 			while (!scan.hasNextInt()) {
 				String input = scan.next();
-				System.out.println(input+" no es un valor válido." );
-				
+				System.out.println("<" + input + "> no es un valor válido.");
+
 			}
-			cantidadPremio=scan.nextInt();
-		}while (cantidadPremio<0);
-		
-		
+			cantidadPremio = scan.nextInt();
+		} while (cantidadPremio < 0);
+
 		Premio premio = new Premio(tipoDePremio, cantidadPremio);
 		Categoria categoria = new Categoria(ronda, premio);
 		categoria.generarPreguntas();
+		System.out.println("CATEGORÍA " + ronda + " TERMINADA");
+		System.out.println("//=========================//");
 		return categoria;
 	}
-	
+
 	public String dificultadRonda(int ronda) {
 		String dificultad;
 
-		switch (ronda) {
-		case 1:
+		if (ronda == 1) {
 			dificultad = " (Muy fácil)";
-		case 2:
+		} else if (ronda == 2) {
 			dificultad = " (Fácil)";
-		case 3:
+		} else if (ronda == 3) {
 			dificultad = " (Moderada)";
-		case 4:
+		} else if (ronda == 4) {
 			dificultad = " (Difícil)";
-		case 5:
+		} else {
 			dificultad = " (Muy difícil)";
-		default:
-			dificultad = "";
 		}
 		return dificultad;
 	}
@@ -111,9 +118,7 @@ public class Concurso {
 	@Override
 	public String toString() {
 		return "Concurso \n[fechaInicial=" + fechaInicial + ", \nfechaFinal=" + fechaFinal + ", \ncategorias="
-				+ Arrays.toString(categorias) + ", \nscan=" + scan + "]";
+				+ Arrays.toString(categorias) + "]";
 	}
-	
-	
 
 }

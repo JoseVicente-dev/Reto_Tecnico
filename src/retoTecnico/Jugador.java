@@ -8,7 +8,7 @@ public class Jugador {
 	private int puntaje = 0;
 	private String fechaParticipacion;
 	private String estado;
-	private byte nivelMaximoAlcanzado;
+	private int nivelMaximoAlcanzado;
 
 	/**
 	 * @param identificacion
@@ -18,15 +18,18 @@ public class Jugador {
 	 * @param estado
 	 * @param nivelMaximoAlcanzado
 	 */
-	public Jugador(int identificacion, String nombres, String apellidos, String fechaParticipacion, String estado,
-			byte nivelMaximoAlcanzado) {
+	public Jugador(int identificacion, String nombres, String apellidos, String fechaParticipacion
+			) {
 		super();
 		this.identificacion = identificacion;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.fechaParticipacion = fechaParticipacion;
-		this.estado = estado;
-		this.nivelMaximoAlcanzado = nivelMaximoAlcanzado;
+		
+	}
+	
+	public void aumentarPuntaje(int premio) {
+		setPuntaje(getPuntaje()+premio);
 	}
 
 	/**
@@ -116,14 +119,14 @@ public class Jugador {
 	/**
 	 * @return the nivelMaximoAlcanzado
 	 */
-	public byte getNivelMaximoAlcanzado() {
+	public int getNivelMaximoAlcanzado() {
 		return nivelMaximoAlcanzado;
 	}
 
 	/**
 	 * @param nivelMaximoAlcanzado the nivelMaximoAlcanzado to set
 	 */
-	public void setNivelMaximoAlcanzado(byte nivelMaximoAlcanzado) {
+	public void setNivelMaximoAlcanzado(int nivelMaximoAlcanzado) {
 		this.nivelMaximoAlcanzado = nivelMaximoAlcanzado;
 	}
 
