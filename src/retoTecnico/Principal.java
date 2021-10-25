@@ -28,18 +28,38 @@ public class Principal {
 		
 		System.out.println("\nA continuacion dará inicio el concurso");
 		
-		Jugador jugador = new Jugador(identificacion, nombres, apellidos, concurso.getFechaInicial());
+		Jugador jugador = new Jugador(1062282697, "Jose", "Velasco", concurso.getFechaInicial());
 		
 		
 		int ronda = 1;
 		Categoria categoria1 = concurso.getCategorias()[0];
-		Pregunta preguntaSeleccionada = categoria1.preguntaAlAzar();
-		System.out.println("Por la CATEGORIA No." + categoria1.getRonda() + ", por un PREMIO de "
+		sleep(3000);
+		System.out.println("se muestran las preguntas de la CATEGORIA "+categoria1.getRonda()+"\n----------\n");
+		
+		
+		System.out.println("En la CATEGORIA No." + categoria1.getRonda() + ", por un PREMIO de "
 				+ categoria1.getPremio().getCantidad() +" "+ categoria1.getPremio().getTipo());
+		sleep(3000);
+		System.out.println("\nResponda la siguente pregunta");
+		
+		Pregunta preguntaSeleccionada = categoria1.getPreguntas()[0];
+		preguntaSeleccionada.mostrarEnunciado();
+		
+		concurso.responderPregunta(preguntaSeleccionada);
+		preguntaSeleccionada.verificarRespuestaCorrecta();
+		
+		if(preguntaSeleccionada.verificarRespuestaCorrecta()) {
+			System.out.println("Respuesta CORRECTA!");
+		}
+		else {
+			System.out.println("WHAT A NOOB");
+		}
+		
+		
+		
+		
 
-		System.out.println("");
-
-		System.out.println(concurso.getCategorias()[0]);
+		
 
 //		try {
 //
@@ -87,6 +107,15 @@ public class Principal {
 //			System.out.println("Hubo un error al acceder a la base de datos: " + e.getMessage());
 //		}
 
+	}
+	
+	private static void sleep(long millies) {
+		try {
+			Thread.sleep(millies);
+		} catch (InterruptedException e) {
+			System.out.println("Hilo interrumpido");
+			Thread.currentThread().interrupt();
+		}
 	}
 
 }

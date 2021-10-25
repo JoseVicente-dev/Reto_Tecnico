@@ -51,7 +51,7 @@ public class Pregunta {
 	}
 	
 	public void insertarRespuesta(Respuesta respuesta) {
-		for (int i=0;i<5;++i) {			
+		for (int i=0;i<4;++i) {			
 			if(respuestas[i]==null) {
 				respuestas[i]=respuesta;
 				return;
@@ -59,31 +59,17 @@ public class Pregunta {
 		}
 	}
 	
-	public void mostrarEnunciado(Pregunta pregunta) {
-		System.out.println(pregunta.enunciado+"\n");
+	public void mostrarEnunciado() {
+		System.out.println(this.enunciado+"\n");
 		for (int i=1;i<5;++i) {
-		System.out.println(i+". "+pregunta.getRespuestas()[i-1]+"\n");
+		System.out.println(i+". "+getRespuestas()[i-1].getEnunciado()+"\n");
 		}
 	}
 	
-	public void responderPregunta(Pregunta pregunta) {
-		int seleccion;
-		do {
-			System.out.println("Escoja una RESPUESTA:");
-			while (!scan.hasNextInt()) {
-				String input = scan.next();
-				System.out.println("<" + input + "> no es un valor válido.");
-
-			}
-			seleccion = scan.nextInt();
-		} while (seleccion<1 && seleccion>4);
-		
-		pregunta.setSeleccion(seleccion);	
-		
-	}
+	
 
 	public boolean verificarRespuestaCorrecta() {
-		return respuestas[this.seleccion].isRespuestaCorrecta();
+		return respuestas[this.seleccion-1].isRespuestaCorrecta();
 	}
 
 	/**

@@ -27,12 +27,16 @@ public class Concurso {
 		do {
 			System.out.println("Ingrese el TIPO DE PREMIO que se otorgará en todas las Categorías (PUNTOS o DINERO)");
 			tipoDePremio = scan.nextLine();
-			if (!tipoDePremio.equalsIgnoreCase("dólares") && !tipoDePremio.equalsIgnoreCase("puntos")) {
+			if (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos")) {
 
 				System.out.println("<" + tipoDePremio + "> no es un tipo de premio válido");
 			}
 
 		} while (!tipoDePremio.equalsIgnoreCase("dinero") && !tipoDePremio.equalsIgnoreCase("puntos"));
+		
+		if (tipoDePremio.equalsIgnoreCase("dinero")){
+			tipoDePremio="dólares";
+		}
 
 		Categoria categoria1 = configurarCategoria(1, tipoDePremio.toLowerCase());
 //		Categoria categoria2 = configurarCategoria(2, tipoDePremio.toLowerCase());
@@ -85,6 +89,26 @@ public class Concurso {
 			dificultad = " (Muy difícil)";
 		}
 		return dificultad;
+	}
+	
+	public void iniciarJuego() {
+		
+	}
+	
+	public void responderPregunta(Pregunta pregunta) {
+		int seleccion;
+		do {
+			System.out.println("Escoja una RESPUESTA:");
+			while (!scan.hasNextInt()) {
+				String input = scan.next();
+				System.out.println("<" + input + "> no es un valor válido.");
+
+			}
+			seleccion = scan.nextInt();
+		} while (seleccion<1 && seleccion>4);
+		
+		pregunta.setSeleccion(seleccion);	
+		
 	}
 
 	/**
