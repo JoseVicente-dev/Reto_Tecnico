@@ -47,16 +47,16 @@ public class Concurso {
 		}
 
 		Categoria categoria1 = configurarCategoria(1, tipoDePremio.toLowerCase());
-//		Categoria categoria2 = configurarCategoria(2, tipoDePremio.toLowerCase());
-//		Categoria categoria3 = configurarCategoria(3, tipoDePremio.toLowerCase());
-//		Categoria categoria4 = configurarCategoria(4, tipoDePremio.toLowerCase());
-//		Categoria categoria5 = configurarCategoria(5, tipoDePremio.toLowerCase());
+		Categoria categoria2 = configurarCategoria(2, tipoDePremio.toLowerCase());
+		Categoria categoria3 = configurarCategoria(3, tipoDePremio.toLowerCase());
+		Categoria categoria4 = configurarCategoria(4, tipoDePremio.toLowerCase());
+		Categoria categoria5 = configurarCategoria(5, tipoDePremio.toLowerCase());
 //
 		categorias[0] = categoria1;
-//		categorias[1] = categoria2;
-//		categorias[2] = categoria3;
-//		categorias[3] = categoria4;
-//		categorias[4] = categoria5;
+		categorias[1] = categoria2;
+		categorias[2] = categoria3;
+		categorias[3] = categoria4;
+		categorias[4] = categoria5;
 		System.out.println("\nCONCURSO CONFIGURADO. LISTO PARA INICIAR");
 		System.out.println("//=========================//");
 
@@ -112,7 +112,7 @@ public class Concurso {
 			Premio premioActual = categoria.getPremio();
 			int ronda =categoria.getRonda();
 			sleep(3000);
-			System.out.println("se muestran las preguntas de la CATEGORIA " + categoria.getRonda() + "\n----------\n");
+			System.out.println("\n----------\n");
 
 			System.out.println("En la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
@@ -121,6 +121,7 @@ public class Concurso {
 			
 			if (finDelJuego) {
 				System.out.println("Es una pena que te retires. Mejor suerte para la proxima");
+				return;
 			}
 			
 			else {
@@ -137,8 +138,7 @@ public class Concurso {
 				
 				if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
 					System.out.println("Respuesta CORRECTA!");
-					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
-					System.out.println(jugador);
+					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());					
 					conectarBD();
 					actualizarBD(jugador);
 					leerBD();
@@ -147,6 +147,7 @@ public class Concurso {
 				} else {
 					System.out.println("¡INCORRECTO! Mejor suerte para la proxima");
 					finDelJuegoForzado(ronda);
+					return;
 				}
 			}
 			
@@ -164,7 +165,7 @@ public class Concurso {
 		String nombres;
 		String apellidos;
 		do {
-			System.out.println("Introduzca NUMERO DE IDENTIFICACION:");
+			System.out.println("\nIntroduzca NUMERO DE IDENTIFICACION:");
 			while (!scan.hasNextInt()) {
 				String input = scan.next();
 				System.out.println("<" + input + "> no es un valor válido.");
@@ -232,9 +233,9 @@ public class Concurso {
 				System.out.println("<" + respuesta + "> no es una opción válida");
 			}
 
-		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("puntos"));
+		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no"));
 
-		if (respuesta.equalsIgnoreCase("si")) {
+		if (respuesta.equalsIgnoreCase("no")) {
 			finDelJuego = true;
 			this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 			jugador.setEstado("retirado");
@@ -314,8 +315,8 @@ public class Concurso {
 			pstmt.setString(2, nombres);
 			pstmt.setString(3, apellidos);
 			pstmt.setInt(4, puntaje);
-			pstmt.setString(5, estado);
-			pstmt.setString(6, fechaPartipacion);
+			pstmt.setString(5, fechaPartipacion);
+			pstmt.setString(6, estado);
 			pstmt.setInt(7, nivelMaximo);
 			pstmt.executeUpdate();
 			conexion.close();
@@ -325,6 +326,7 @@ public class Concurso {
 			
 			
 		}
+		leerBD();
 		
 	}
 
