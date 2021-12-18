@@ -6,11 +6,10 @@ public class ConcursoPrefabricado {
 
 	public Concurso concursoPredisenado() {
 		sleep(2000);
-		System.out.println("CONCURSO PREDISEÑADO PARA PROBAR EL INICIO DEL JUEGO");
+		System.out.println("\nCONCURSO PREDISEÑADO PARA PROBAR EL INICIO DEL JUEGO");
 		
-		System.out.println("\nNOTA: Todos los enunciados para las preguntas y respuestas son señuelos para probar la funcionalidad");
-		sleep(2000);
-		
+		System.out.println("NOTA: Todos los enunciados para las preguntas y respuestas son señuelos para probar la funcionalidad");
+				
 		Concurso concursoPrefabricado = new Concurso();
 		Respuesta respCorrecta = new Respuesta("correcta", true);
 		Respuesta respIncorrecta1 = new Respuesta("incorrecta", false);
@@ -28,7 +27,7 @@ public class ConcursoPrefabricado {
 				Random random = new Random();
 				int indiceV = random.nextInt(4);
 
-				Pregunta pregunta = new Pregunta(j, j + 1, "Este es el enunciado(?)");
+				Pregunta pregunta = new Pregunta(j, j + 1, "<Aqui va el enunciado de la pregunta>");
 				pregunta.getRespuestas()[indiceV] = respCorrecta;
 				pregunta.insertarRespuesta(respIncorrecta1);
 				pregunta.insertarRespuesta(respIncorrecta2);

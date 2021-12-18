@@ -6,13 +6,23 @@ public class Principal {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		System.out.println(
-				"BIENVENIDO AL GENERADOR DE CONCURSOS \nA continuación podrá generar un concurso de preguntas y respuestas con 5 rondas."
-						+ "\nCada pregunta cuenta con 1 respuesta correcta y 3 respuestas incorrectas."
-						+ "\nCada ronda equivale a una Categoría o nivel de dificultad, iniciando con las preguntas de menor dificultad y ascendiendo hasta las más difíciles."
-						+ "\nPara cada Categoría debe crear 5 preguntas del mismo nivel. En cada ronda se escogerá una al azar, por tanto debe plantear 25 preguntas en total."
-						+ "\n¡Comencemos!");
+		System.out.println("\n*----------------------------------------------------------------------*");
+		System.out.println("BIENVENIDO AL GENERADOR DE CONCURSOS");
+		System.out.println("*----------------------------------------------------------------------*");
+		sleep(3000);
+		System.out.println();
+		System.out.println("INSTRUCCIONES:");
+		sleep(1000);
+		System.out.println("A continuación podrá generar un concurso de preguntas y respuestas con 5 Rondas.");
+		sleep(3000);
+		System.out.println( "Cada Pregunta cuenta con 1 Respuesta correcta y 3 Respuestas incorrectas.");
+		sleep(3000);
+		System.out.println( "Cada ronda equivale a una Categoría o nivel de dificultad, iniciando con las preguntas de menor dificultad y ascendiendo hasta las más difíciles.");
+		sleep(4000);
+		System.out.println( "Para cada Categoría debe crear 5 preguntas del mismo nivel. En cada ronda se escogerá una al azar, por tanto debe plantear 25 preguntas en total.");
+		sleep(5000);
+		System.out.println("¡COMENCEMOS!");
+		sleep(3000);
 
 		Scanner scan = new Scanner(System.in);
 		String respuesta;
@@ -20,7 +30,7 @@ public class Principal {
 
 		do {
 			System.out.println(
-					"¿Desea usar un concurso prediseñado con enunciados tipo dummie para probar el juego? SI/NO");
+					"\n¡AVISO! Antes de iniciar,¿desea usar un concurso prediseñado con enunciados explícitos para probar el juego? SI/NO");
 			respuesta = scan.nextLine();
 			if (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no")) {
 
@@ -40,11 +50,23 @@ public class Principal {
 
 			concurso.configurarJuego();
 		}
-
-		System.out.println("\nA continuacion dará INICIO el concurso\n");
+		sleep(3000);
+		System.out.println("\n*----------------------------------------------------------------------*");
+		System.out.println("A continuacion dará INICIO el concurso");
+		System.out.println("*----------------------------------------------------------------------*\n");
+		sleep(2000);
 
 		concurso.iniciarJuego();
 
+	}
+	
+	private static void sleep(long millies) {
+		try {
+			Thread.sleep(millies);
+		} catch (InterruptedException e) {
+			System.out.println("Hilo interrumpido");
+			Thread.currentThread().interrupt();
+		}
 	}
 
 }

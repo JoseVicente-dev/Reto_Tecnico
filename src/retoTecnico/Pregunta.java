@@ -25,7 +25,7 @@ public class Pregunta {
 
 	public void generarRespuestas() {
 		int indiceV = (int) (Math.random() * 4);
-		System.out.println("Ingrese el enunciado de la respuesta CORRECTA:");
+		System.out.println("Ingrese el enunciado de la Respuesta CORRECTA:");
 		String enunciadoV = scan.nextLine();		
 		Respuesta correcta = new Respuesta(enunciadoV, true);
 				

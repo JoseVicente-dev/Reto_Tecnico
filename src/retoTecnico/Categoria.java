@@ -43,8 +43,9 @@ public class Categoria {
 		String enunciadoP = scan.nextLine();
 		Pregunta pregunta = new Pregunta(indiceP, ronda, enunciadoP);
 		pregunta.generarRespuestas();
-		System.out.println("CATEGORÍA-"+ronda+"/PREGUNTA-"+i+" INGRESADA CORRECTAMENTE");
-		System.out.println("//-------------------------//");
+//		System.out.println("\nCATEGORÍA-"+ronda+"/PREGUNTA-"+i+" INGRESADA CORRECTAMENTE");
+		System.out.println("\nHas ingresado correctamente la PREGUNTA-"+i+" de la CATERGORIA-"+ronda);
+		System.out.println("*----------------------------------------------------------------------*");
 		
 		return pregunta;
 
