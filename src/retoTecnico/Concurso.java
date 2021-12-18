@@ -114,13 +114,13 @@ public class Concurso {
 			sleep(3000);
 			System.out.println("\n----------\n");
 
-			System.out.println("Usted está la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
+			System.out.println("Usted está en la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
 
 			boolean finDelJuego = finDelJuegoVoluntario(ronda);
 
 			if (finDelJuego) {
-				System.out.println("Es una pena que te retires. Mejor suerte para la proxima");
+//				System.out.println("Es una pena que te retires. Mejor suerte para la proxima");
 				return;
 			}
 
@@ -164,8 +164,9 @@ public class Concurso {
 		System.out.println("//-------------------------//");
 		System.out.println("Introduzca los datos del JUGADOR");
 		System.out.println("//-------------------------//");
+		sleep(2000);
 		int identificacion;
-		String nombres;
+		String nombres=" ";
 		String apellidos;
 		do {
 			System.out.println("\nIntroduzca NUMERO DE IDENTIFICACION:");
@@ -176,26 +177,22 @@ public class Concurso {
 			}
 			identificacion = scan.nextInt();
 		} while (identificacion < 0);
-
+		
 		do {
-			System.out.println("Introduzca NOMBRES:");
+			System.out.println("\nIntroduzca NOMBRES:");
 			nombres = scan.nextLine();
 			if (nombres.equalsIgnoreCase("") || nombres == null) {
-
-				System.out.println("Los nombres no pueden ser vacíos");
+				System.out.println("\nLos nombres no pueden ser vacíos");
 			}
-
-		} while (nombres.equalsIgnoreCase("") || nombres == null);
-
+		} while (nombres.equalsIgnoreCase("") || nombres == null);		
+		
 		do {
-			System.out.println("Introduzca APELLIDOS:");
+			System.out.println("\nIntroduzca los APELLIDOS:");
 			apellidos = scan.nextLine();
-			if (apellidos.equalsIgnoreCase("") || apellidos == null) {
-
-				System.out.println("Los apellidos no pueden ser vacíos");
-			}
-
-		} while (apellidos.equalsIgnoreCase("") || apellidos == null);
+			if (apellidos.equalsIgnoreCase("")) {				
+				System.out.println("\nLos apellidos no pueden ser vacíos");
+			}			
+		} while (apellidos.equalsIgnoreCase(""));
 
 		this.jugador = new Jugador(identificacion, nombres.toLowerCase(), apellidos.toLowerCase(), this.fechaInicial);
 	}
@@ -227,8 +224,8 @@ public class Concurso {
 
 		String respuesta;
 		do {
-			System.out.println("¿Desea CONTINUAR? SI/NO");
-			respuesta = scan.nextLine();
+			System.out.println("\n¿Desea CONTINUAR? SI/NO");
+			respuesta = scan.next();
 			if (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no")) {
 
 				System.out.println("<" + respuesta + "> no es una opción válida");
@@ -237,6 +234,7 @@ public class Concurso {
 		} while (!respuesta.equalsIgnoreCase("si") && !respuesta.equalsIgnoreCase("no"));
 
 		if (respuesta.equalsIgnoreCase("no")) {
+			System.out.println("\nEs una pena que te retires. Mejor suerte para la proxima");
 			finDelJuego = true;
 			this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 			jugador.setEstado("retirado");
@@ -343,7 +341,10 @@ public class Concurso {
 			String fechaParticipacion;
 			int nivelMaximo;
 
-			System.out.println("Listado de Jugadores");
+			System.out.println("\nListado de Jugadores");
+			System.out.printf("%14s %20s %20s %10s %20s %15s %5s","Identificacion", "Nombres","Apellidos", "Puntaje","Fecha del juego" , "Estado", "Ronda");
+			System.out.println();
+			String formatoTabla="%14s %20s %20s %10d %20s %15s %5d";
 			while (resultados.next()) {
 				identificacion = resultados.getInt("identificacion");
 				nombres = resultados.getString("nombres");
@@ -351,11 +352,13 @@ public class Concurso {
 				puntaje = resultados.getInt("puntaje");
 				estado = resultados.getString("estado");
 				fechaParticipacion = resultados.getString("fecha_participacion");
-				nivelMaximo = resultados.getInt("nivel_maximo");
-
-				System.out.println("Identificacion: " + identificacion + ", Nombres: " + nombres + ", Apellidos: "
-						+ apellidos + ", Puntaje obtenido: " + puntaje + ", Fecha de participacion: "
-						+ fechaParticipacion + ", Estado: " + estado + ", Nivel Maximo Alcanzado: " + nivelMaximo);
+				nivelMaximo = resultados.getInt("nivel_maximo");				
+				
+				System.out.printf(formatoTabla, identificacion, nombres, apellidos, puntaje, fechaParticipacion, estado, nivelMaximo);
+				System.out.println();
+//				System.out.println("Identificacion: " + identificacion + ", Nombres: " + nombres + ", Apellidos: "
+//						+ apellidos + ", Puntaje obtenido: " + puntaje + ", Fecha de participacion: "
+//						+ fechaParticipacion + ", Estado: " + estado + ", Nivel Maximo Alcanzado: " + nivelMaximo);
 			}
 			// Se cierra la conexion
 			conexion.close();

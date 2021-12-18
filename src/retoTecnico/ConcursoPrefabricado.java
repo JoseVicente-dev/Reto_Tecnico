@@ -5,10 +5,12 @@ import java.util.Random;
 public class ConcursoPrefabricado {
 
 	public Concurso concursoPredisenado() {
-
+		sleep(2000);
 		System.out.println("CONCURSO PREDISEÑADO PARA PROBAR EL INICIO DEL JUEGO");
-		System.out.println("\nNOTA: Todos los enunciados para las preguntas y respuestas son dummies");
-
+		
+		System.out.println("\nNOTA: Todos los enunciados para las preguntas y respuestas son señuelos para probar la funcionalidad");
+		sleep(2000);
+		
 		Concurso concursoPrefabricado = new Concurso();
 		Respuesta respCorrecta = new Respuesta("correcta", true);
 		Respuesta respIncorrecta1 = new Respuesta("incorrecta", false);
@@ -43,6 +45,15 @@ public class ConcursoPrefabricado {
 		concursoPrefabricado.setCategorias(categorias);
 
 		return concursoPrefabricado;
+	}
+	
+	private static void sleep(long millies) {
+		try {
+			Thread.sleep(millies);
+		} catch (InterruptedException e) {
+			System.out.println("Hilo interrumpido");
+			Thread.currentThread().interrupt();
+		}
 	}
 
 }

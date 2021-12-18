@@ -24,16 +24,16 @@ public class Categoria {
 	public void generarPreguntas() {
 
 		Pregunta pregunta1 = configurarPregunta(0, 1, this.ronda);
-//		Pregunta pregunta2 = configurarPregunta(1, 2, this.ronda);
-//		Pregunta pregunta3 = configurarPregunta(2, 3, this.ronda);
-//		Pregunta pregunta4 = configurarPregunta(3, 4, this.ronda);
-//		Pregunta pregunta5 = configurarPregunta(4, 5, this.ronda);
+		Pregunta pregunta2 = configurarPregunta(1, 2, this.ronda);
+		Pregunta pregunta3 = configurarPregunta(2, 3, this.ronda);
+		Pregunta pregunta4 = configurarPregunta(3, 4, this.ronda);
+		Pregunta pregunta5 = configurarPregunta(4, 5, this.ronda);
 
 		preguntas[0] = pregunta1;
-//		preguntas[1] = pregunta2;
-//		preguntas[2] = pregunta3;
-//		preguntas[3] = pregunta4;
-//		preguntas[4] = pregunta5;
+		preguntas[1] = pregunta2;
+		preguntas[2] = pregunta3;
+		preguntas[3] = pregunta4;
+		preguntas[4] = pregunta5;
 
 	}
 
