@@ -267,6 +267,7 @@ public class Concurso {
 		this.fechaFinal = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
 		jugador.setEstado("eliminado");
 		jugador.setNivelMaximoAlcanzado(ronda - 1);
+		jugador.setPuntaje(0);
 
 		conectarBD();
 		actualizarBD(this.jugador);
