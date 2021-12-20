@@ -147,9 +147,9 @@ public class Concurso {
 						jugador.setEstado("ganador");
 						
 						System.out.println("\n*----------------------------------------------------------------------*");
-						System.out.println("\n¡HURRA!\\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/¡HURRA!");
+						System.out.println("\n¡HURRA! \\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/ ¡HURRA!");
 						System.out.println("¡FELICIDADES! Eres el GANADOR del concurso.");
-						System.out.println("\\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/");
+						System.out.println("¡HURRA! \\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/ ¡HURRA!");
 						conectarBD();
 						actualizarBD(jugador);
 						leerBD();
