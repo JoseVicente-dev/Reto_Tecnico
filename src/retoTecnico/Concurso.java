@@ -118,6 +118,7 @@ public class Concurso {
 
 			System.out.println("\nEstás en la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
+			System.out.println("\nTu puntaje ACUMULADO es de "+jugador.getPuntaje()+" "+premioActual.getTipo()+". Si fallas, perderás tu acumulado");
 
 			boolean finDelJuego = finDelJuegoVoluntario(ronda);
 
@@ -129,7 +130,7 @@ public class Concurso {
 			else {
 
 				sleep(3000);
-				System.out.println("\nResponda la siguente pregunta");
+				System.out.println("\nResponda la siguente pregunta:");
 
 				Pregunta preguntaSeleccionada = categoria.preguntaAlAzar();
 				preguntaSeleccionada.mostrarEnunciado();
