@@ -39,14 +39,14 @@ public class Categoria {
 
 	public Pregunta configurarPregunta(int indiceP, int i, int ronda) {
 
-		System.out.println("Ingrese el enunciado de la PREGUNTA No. " + i + " de la CATEGORÍA "+ronda+ ":");
+		System.out.println("Ingrese el enunciado de la PREGUNTA No. " + i + " de la CATEGORÍA " + ronda + ":");
 		String enunciadoP = scan.nextLine();
 		Pregunta pregunta = new Pregunta(indiceP, ronda, enunciadoP);
 		pregunta.generarRespuestas();
 //		System.out.println("\nCATEGORÍA-"+ronda+"/PREGUNTA-"+i+" INGRESADA CORRECTAMENTE");
-		System.out.println("\nHas ingresado correctamente la PREGUNTA-"+i+" de la CATERGORIA-"+ronda);
+		System.out.println("\nHas ingresado correctamente la PREGUNTA-" + i + " de la CATERGORIA-" + ronda);
 		System.out.println("*----------------------------------------------------------------------*");
-		
+
 		return pregunta;
 
 	}
@@ -57,8 +57,6 @@ public class Categoria {
 		return preguntaSeleccionada;
 
 	}
-
-	
 
 	public void categoriaSuperada() {
 		if (preguntaAlAzar().verificarRespuestaCorrecta()) {
@@ -127,8 +125,5 @@ public class Categoria {
 		return "Categoria \n[ronda=" + ronda + ", \npremio=" + premio + ", \nsuperada=" + superada + ", \npreguntas="
 				+ Arrays.toString(preguntas) + "]";
 	}
-
-	
-	
 
 }

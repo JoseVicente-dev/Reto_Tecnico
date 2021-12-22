@@ -18,18 +18,17 @@ public class Jugador {
 	 * @param estado
 	 * @param nivelMaximoAlcanzado
 	 */
-	public Jugador(int identificacion, String nombres, String apellidos, String fechaParticipacion
-			) {
+	public Jugador(int identificacion, String nombres, String apellidos, String fechaParticipacion) {
 		super();
 		this.identificacion = identificacion;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.fechaParticipacion = fechaParticipacion;
-		
+
 	}
-	
+
 	public void aumentarPuntaje(int premio) {
-		setPuntaje(getPuntaje()+premio);
+		setPuntaje(getPuntaje() + premio);
 	}
 
 	/**
@@ -136,7 +135,5 @@ public class Jugador {
 				+ ", \npuntaje=" + puntaje + ", \nfechaParticipacion=" + fechaParticipacion + ", \nestado=" + estado
 				+ ", \nnivelMaximoAlcanzado=" + nivelMaximoAlcanzado + "]";
 	}
-	
-	
 
 }

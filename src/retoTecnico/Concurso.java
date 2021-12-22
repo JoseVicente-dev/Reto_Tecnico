@@ -118,7 +118,8 @@ public class Concurso {
 
 			System.out.println("\nEstás en la CATEGORIA No." + categoria.getRonda() + ", por un PREMIO de "
 					+ premioActual.getCantidad() + " " + premioActual.getTipo());
-			System.out.println("\nTu puntaje ACUMULADO es de "+jugador.getPuntaje()+" "+premioActual.getTipo()+". Si fallas, perderás tu acumulado");
+			System.out.println("\nTu puntaje ACUMULADO es de " + jugador.getPuntaje() + " " + premioActual.getTipo()
+					+ ". Si fallas, perderás tu acumulado");
 
 			boolean finDelJuego = finDelJuegoVoluntario(ronda);
 
@@ -142,11 +143,12 @@ public class Concurso {
 				if (preguntaSeleccionada.verificarRespuestaCorrecta()) {
 					System.out.println("¡ACERTASTE!");
 					aumentarNivel(jugador, premioActual.getCantidad(), categoria.getRonda());
-					
+
 					if (jugador.getNivelMaximoAlcanzado() == 5) {
 						jugador.setEstado("ganador");
-						
-						System.out.println("\n*----------------------------------------------------------------------*");
+
+						System.out
+								.println("\n*----------------------------------------------------------------------*");
 						System.out.println("\n¡HURRA! \\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/ ¡HURRA!");
 						System.out.println("¡FELICIDADES! Eres el GANADOR del concurso.");
 						System.out.println("¡HURRA! \\o/\\o/\\o/\\o/\\o/\\o/\\o/\\o/ ¡HURRA!");
@@ -177,24 +179,24 @@ public class Concurso {
 		int identificacion;
 		String nombres = "";
 		String apellidos = "";
-		
+
 		do {
 			System.out.println("Tus NOMBRES:");
 			nombres = scan.nextLine();
 			if (nombres.equalsIgnoreCase("") || nombres == null) {
 				System.out.println("Los nombres no pueden ser vacíos");
 			}
-			
-		} while (nombres.equalsIgnoreCase("") || nombres == null);		
-		
+
+		} while (nombres.equalsIgnoreCase("") || nombres == null);
+
 		do {
 			System.out.println("Tus APELLIDOS:");
 			apellidos = scan.nextLine();
-			if (apellidos.equalsIgnoreCase("")) {				
+			if (apellidos.equalsIgnoreCase("")) {
 				System.out.println("\nLos apellidos no pueden ser vacíos");
-			}			
+			}
 		} while (apellidos.equalsIgnoreCase(""));
-		
+
 		do {
 			System.out.println("Tu NUMERO DE IDENTIFICACION:");
 			while (!scan.hasNextInt()) {
@@ -204,7 +206,7 @@ public class Concurso {
 			}
 			identificacion = scan.nextInt();
 		} while (identificacion < 0);
-		
+
 		this.jugador = new Jugador(identificacion, nombres.toLowerCase(), apellidos.toLowerCase(), this.fechaInicial);
 	}
 
@@ -355,13 +357,13 @@ public class Concurso {
 			String estado;
 			String fechaParticipacion;
 			int nivelMaximo;
-			
+
 			System.out.println("*----------------------------------------------------------------------*");
 			System.out.println("\nListado de Jugadores");
-			System.out.printf("%14s %20s %20s %10s %20s %15s %5s", "Identificacion", "Nombres", "Apellidos", "Puntaje",
-					"Fecha del juego", "Estado", "Ronda");
+			System.out.printf("%14s %20s %20s %10s %20s %15s %10s", "Identificacion", "Nombres", "Apellidos", "Puntaje",
+					"Fecha del juego", "Estado", "Ronda máx.");
 			System.out.println();
-			String formatoTabla = "%14s %20s %20s %10d %20s %15s %5d";
+			String formatoTabla = "%14s %20s %20s %10d %20s %15s %10d";
 			while (resultados.next()) {
 				identificacion = resultados.getInt("identificacion");
 				nombres = resultados.getString("nombres");

@@ -26,50 +26,46 @@ public class Pregunta {
 	public void generarRespuestas() {
 		int indiceV = (int) (Math.random() * 4);
 		System.out.println("Ingrese el enunciado de la Respuesta CORRECTA:");
-		String enunciadoV = scan.nextLine();		
+		String enunciadoV = scan.nextLine();
 		Respuesta correcta = new Respuesta(enunciadoV, true);
-				
+
 		respuestas[indiceV] = correcta;
-		
+
 		Respuesta incorrecta1 = configurarRespuestaIncorrecta(1);
 		insertarRespuesta(incorrecta1);
 		Respuesta incorrecta2 = configurarRespuestaIncorrecta(2);
 		insertarRespuesta(incorrecta2);
 		Respuesta incorrecta3 = configurarRespuestaIncorrecta(3);
-		insertarRespuesta(incorrecta3);		
-		
-		
+		insertarRespuesta(incorrecta3);
 
 	}
 
 	public Respuesta configurarRespuestaIncorrecta(int i) {
-		System.out.println("Ingrese el enunciado de la Respuesta INCORRECTA No. " + i+":");		
+		System.out.println("Ingrese el enunciado de la Respuesta INCORRECTA No. " + i + ":");
 		String enunciadoF = scan.nextLine();
 		Respuesta respuesta = new Respuesta(enunciadoF, false);
 		return respuesta;
 
 	}
-	
+
 	public void insertarRespuesta(Respuesta respuesta) {
-		for (int i=0;i<4;++i) {			
-			if(respuestas[i]==null) {
-				respuestas[i]=respuesta;
+		for (int i = 0; i < 4; ++i) {
+			if (respuestas[i] == null) {
+				respuestas[i] = respuesta;
 				return;
 			}
 		}
 	}
-	
+
 	public void mostrarEnunciado() {
-		System.out.println("\n"+this.enunciado+"\n");
-		for (int i=1;i<5;++i) {
-		System.out.println(i+". "+getRespuestas()[i-1].getEnunciado()+"\n");
+		System.out.println("\n" + this.enunciado + "\n");
+		for (int i = 1; i < 5; ++i) {
+			System.out.println(i + ". " + getRespuestas()[i - 1].getEnunciado() + "\n");
 		}
 	}
-	
-	
 
 	public boolean verificarRespuestaCorrecta() {
-		return respuestas[this.seleccion-1].isRespuestaCorrecta();
+		return respuestas[this.seleccion - 1].isRespuestaCorrecta();
 	}
 
 	/**

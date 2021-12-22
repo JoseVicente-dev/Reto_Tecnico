@@ -1,18 +1,18 @@
 package retoTecnico;
 
 public class Respuesta {
-	
+
 //	private int indice;
 	private String enunciado;
 	private boolean respuestaCorrecta;
-	
+
 	/**
 	 * @param indice
 	 * @param enunciado
 	 * @param respuestaCorrecta
 	 */
 	public Respuesta(String enunciado, boolean respuestaCorrecta) {
-		super();		
+		super();
 		this.enunciado = enunciado;
 		this.respuestaCorrecta = respuestaCorrecta;
 	}
@@ -63,10 +63,5 @@ public class Respuesta {
 	public String toString() {
 		return "Respuesta \n[enunciado=" + enunciado + ", \nrespuestaCorrecta=" + respuestaCorrecta + "]";
 	}
-
-	
-	
-	
-	
 
 }
